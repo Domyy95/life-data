@@ -7,3 +7,14 @@ Connect GDrive sheet file: [link](https://medium.com/daily-python/python-script-
 Gspread doc: [link](https://gspread.readthedocs.io/en/latest/)
 
 Google Fit API doc: [link](https://developers.google.com/fit/overview)
+
+## Next steps
+
+- Bash script
+- Ask day do you want to insert 
+- Add a more readable file to set up the Data to read
+- Auto update file when requested reading the data from Drive
+- API from MI band --> Google Fit
+- Weigth from a balance
+- More precise Sleep data, ring sleep ? 
+- Run activity Log

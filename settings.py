@@ -5,25 +5,41 @@ from oauth2client.service_account import ServiceAccountCredentials
 data_file_name = '2021_action_activity'
 # Daily - Data sheet
 daily_data_sheet = 'Daily - Data'
-daily_data = ['sleep start', 'awake', 'morning workout', 'meditation', 'affirmation visualization', 'read night before', 'brush teeth', 'happiness', 'vote']
-daily_data_positions = ['B', 'C', 'D', 'E', 'F', 'H', 'happiness', 'vote']
-once_a_week_data = {'sunday': 'weight'}
-once_a_week_positions = ['I']
+# name: coloumn on sheet, type of data, when to ask (default daily)
+daily_data = {'Sleep start': ['B', 'hour'],
+              'Awake': ['C', 'hour'],
+              'Morning workout': ['D', 'time'],
+              'Meditation': ['E', 'time'],
+              'Affirmation&Visualization': ['F', 'time'],
+              'Read night before': ['G', 'time'],
+              'Brush teeth': ['H', 'check'],
+              'Happiness': ['I', 'int'],
+              'Vote': ['J', 'int'],
+              'Weight': ['K', 'int', [7]]
+              }
 
-# Daily - Actions sheet
+# Daily - Actions sheet + Weekly activities sheet
 daily_actions_sheet = 'Daily - Actions'
-daily_actions_data = ['sleep', 'work', 'learning', 'side projects', 'sport', 'fun', 'phone', 'notes']
-daily_actions_positions = []
-
-# Weekly activities sheet
 weekly_activities_sheet = 'Weekly Activities'
-weekly_activities_data = {'learning': ['reading', 'english', 'gcp certifications', 'other'],
-                     'side projects': ['website', '3d Printing', 'other'],
-                     'sport': ['run', 'football', 'hiking', 'tennis', 'yoga', 'other'],
-                     'fun': ['movies', 'martina', 'football', 'go out', 'chess', 'Trips']}
-weekly_activities_positions = []
+# name: coloumn on sheet, type of data, categories if presents
+daily_actions_data = {'Sleep': ['I', 'time'],
+                      'Work': ['B', 'time'],
+                      'Learning': ['D', 'time', {'reading': 13, 'english': 14, 'GCP certifications': 15}],
+                      'Sport': ['F', 'time', {'Run': 2,'Football': 3,'Hiking': 4,'Tennis': 5, 'Yoga': 6, 'Other': 8}],
+                      'Side projects': ['E', 'time', {'Website': 23, '3d Printing': 24, 'Other': 28}],
+                      'Fun': ['G', 'time', {'Martina': 33,'Movies': 34,'Football': 35,'Go out': 36,'Trips': 37,'Chess': 38,'Board games': 39,'Other': 42}],
+                      'Phone': ['H', 'time'],
+                      'Operations': ['C', 'time'],
+                      'Notes': ['K', 'str'],
+                      }
 
+hour_format = '.'
+check_type = ['x', 'no', 'nope', 'y', 'yes']
 
+margin = ' = = = = =  = = = = =  = = = = =  = = = = =  = = = = =  = = = = = = = =  = = = = = = = =  '
+title1 = ' = = = = =  = = = = =  Daily Data     = = = = =  = = = = =  '
+title2 = ' = = = = =  = = = = =  Daily Actions  = = = = =  = = = = =  '
+ask_sub_data = 'In which category is this action?'
 
 #Authorize the Google API and get gspead client
 def google_api_auth():
