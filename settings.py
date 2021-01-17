@@ -5,6 +5,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 data_file_name = '2021_action_activity'
 # Daily - Data sheet
 daily_data_sheet = 'Daily - Data'
+daily_data_start_l = 'B'
 # name: coloumn on sheet, type of data, when to ask (default daily)
 daily_data = {'Sleep start': ['B', 'hour'],
               'Awake': ['C', 'hour'],
@@ -20,21 +21,82 @@ daily_data = {'Sleep start': ['B', 'hour'],
 
 # Daily - Actions sheet + Weekly activities sheet
 daily_actions_sheet = 'Daily - Actions'
-weekly_activities_sheet = 'Weekly Activities'
+weekly_activities_sheet = 'Weekly - Activities'
 # name: coloumn on sheet, type of data, categories if presents
+weekly_activities_start_end_sheet = ['B', 'J']
+weekly_activities_order = ['Work', 'Operations', 'Learning', 'Side projects', 'Sport', 'Fun', 'Talking', 'Phone', 'Sleep']
+weekly_activities_not_in_row = ['Notes']
+weekly_activities_with_sub = ['Learning', 'Side projects', 'Fun', 'Sport']
 daily_actions_data = {'Sleep': ['I', 'time'],
                       'Work': ['B', 'time'],
-                      'Learning': ['D', 'time', {'reading': 13, 'english': 14, 'GCP certifications': 15}],
+                      'Learning': ['D', 'time', {'reading': 14, 'english': 15, 'GCP certifications': 16}],
                       'Sport': ['F', 'time', {'Run': 2,'Football': 3,'Hiking': 4,'Tennis': 5, 'Yoga': 6, 'Other': 8}],
                       'Side projects': ['E', 'time', {'Website': 23, '3d Printing': 24, 'Other': 28}],
                       'Fun': ['G', 'time', {'Martina': 33,'Movies': 34,'Football': 35,'Go out': 36,'Trips': 37,'Chess': 38,'Board games': 39,'Other': 42}],
+                      'Talking': ['8', 'time'],
                       'Phone': ['H', 'time'],
                       'Operations': ['C', 'time'],
-                      'Notes': ['K', 'str'],
+                      'Notes': ['L', 'str'],
                       }
 
-hour_format = '.'
-check_type = ['x', 'no', 'nope', 'y', 'yes']
+data_for_check = ['Work', 'Learning', 'Sport', 'Side projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'Meditation', 'Affirmation&Visualization']
+hour_format = ' '
+yes_check_type = ['x', 'y', 'yes']
+check_type = ['no', 'nope'] + yes_check_type
+
+from_n_to_letter = {
+    '2': 'B',
+    '3': 'C',
+    '4': 'D',
+    '5': 'E',
+    '6': 'F',
+    '7': 'G',
+    '8': 'H',
+    '9': 'I',
+    '10': 'J',
+    '11': 'K',
+    '12': 'L',
+    '13': 'M',
+    '14': 'N',
+    '15': 'O',
+    '16': 'P',
+    '17': 'Q',
+    '18': 'R',
+    '19': 'S',
+    '20': 'T',
+    '21': 'U',
+    '22': 'V',
+    '23': 'W',
+    '24': 'X',
+    '25': 'Y',
+    '26': 'Z',
+    '27': 'AA',
+    '28': 'AB',
+    '29': 'AC',
+    '30': 'AD',
+    '31': 'AE',
+    '32': 'AF',
+    '33': 'AG',
+    '34': 'AH',
+    '35': 'AI',
+    '36': 'AJ',
+    '37': 'AK',
+    '38': 'AL',
+    '39': 'AM',
+    '40': 'AN',
+    '41': 'AO',
+    '42': 'AP',
+    '43': 'AQ',
+    '44': 'AR',
+    '45': 'AS',
+    '46': 'AT',
+    '47': 'AU',
+    '48': 'AV',
+    '49': 'AW',
+    '50': 'AX',
+    '51': 'AY',
+    '52': 'AZ'
+}
 
 margin = ' = = = = =  = = = = =  = = = = =  = = = = =  = = = = =  = = = = = = = =  = = = = = = = =  '
 title1 = ' = = = = =  = = = = =  Daily Data     = = = = =  = = = = =  '
