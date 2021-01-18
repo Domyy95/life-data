@@ -8,10 +8,20 @@ Gspread doc: [link](https://gspread.readthedocs.io/en/latest/)
 
 Google Fit API doc: [link](https://developers.google.com/fit/overview)
 
+### Shell Script MAC
+
+insert in a file: 
+
+    #!/bin/bash
+    cd Desktop
+    python3 ./life-data/script.py
+
+Save it and digit chmod 700 file
+
 ## Next steps
 
-- Bash script
 - Add a more readable file to set up the Data to read
 - API from MI band --> Google Fit
 - Weigth from a balance
 - Run activity Log ?
+- GUI
