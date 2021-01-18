@@ -12,6 +12,7 @@ weekly_activities_x = today.isocalendar()[1]
 
 def main():
     print(margin)
+    print(margin2 + f' {today.date()} ' + margin2)
     clean_daily_data()
     daily_data_r = read_daily_data()
     daily_action_r = read_daily_actions()
@@ -80,11 +81,11 @@ def data_review(data):
     while final_version:
         print_all_data(data)
         check_total_time(data)
-        print('Do you want to change something?(number)')
+        print(f'Do you want to change something? [Confirm Data {confirm_data}]')
         answer = input()
         if 0 < int(answer) < len(list(data)):
             modify_data(data, number_to_ref[int(answer)])
-        else:
+        elif int(answer) == confirm_data:
             final_version = False
 
 def check_total_time(data):
@@ -192,9 +193,6 @@ def read_sub_data(data, time):
                 print('Time Missing, other actions?')
 
     return result
-
-
-print(margin)
 
 def choose_option(data, choosen):
     print(ask_sub_data)

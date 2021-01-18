@@ -98,9 +98,11 @@ from_n_to_letter = {
     '52': 'AZ'
 }
 
-margin = ' = = = = =  = = = = =  = = = = =  = = = = =  = = = = =  = = = = = = = =  = = = = = = = =  '
+confirm_data = 99
+margin = ' = = = = =  = = = = =  = = = = =  = = = = =  = = = = =  = = = = = = = =  '
 title1 = ' = = = = =  = = = = =  Daily Data     = = = = =  = = = = =  '
 title2 = ' = = = = =  = = = = =  Daily Actions  = = = = =  = = = = =  '
+margin2 = ' = = = = =  = = = = = '
 ask_sub_data = 'In which category is this action?'
 
 #Authorize the Google API and get gspead client
