@@ -13,8 +13,8 @@ Google Fit API doc: [link](https://developers.google.com/fit/overview)
 insert in a file: 
 
     #!/bin/bash
-    cd Desktop
-    python3 ./life-data/script.py
+    cd Desktop/life-data
+    python3 script.py
 
 Save it and digit chmod 700 file
 
