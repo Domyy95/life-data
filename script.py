@@ -106,14 +106,11 @@ def check_total_time(data):
 
 def modify_data(data, ref):
     next = True
-    if not isinstance(data[ref], datetime.datetime):
+    if isinstance(data[ref], datetime.datetime) or not isinstance(data[ref], list):
         while next:
             print('New Data: ')
             new_d = input()
             new_d, next = verify_data(daily_actions_data[ref][1] if ref in daily_actions_data else daily_data[ref][1], new_d)
-
-        readed_sub_data = read_sub_data(ref, new_d)
-        data[ref] = [new_d, readed_sub_data]
 
     else:
         while next:
@@ -121,6 +118,8 @@ def modify_data(data, ref):
             new_d = input()
             new_d, next = verify_data(daily_actions_data[ref][1] if ref in daily_actions_data else daily_data[ref][1], new_d)
 
+        readed_sub_data = read_sub_data(ref, new_d)
+        data[ref] = [new_d, readed_sub_data]
         data[ref] = new_d
 
 def print_all_data(data):
