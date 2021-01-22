@@ -112,6 +112,8 @@ def modify_data(data, ref):
             new_d = input()
             new_d, next = verify_data(daily_actions_data[ref][1] if ref in daily_actions_data else daily_data[ref][1], new_d)
 
+        data[ref] = new_d
+
     else:
         while next:
             print('New Data: ')
@@ -120,7 +122,6 @@ def modify_data(data, ref):
 
         readed_sub_data = read_sub_data(ref, new_d)
         data[ref] = [new_d, readed_sub_data]
-        data[ref] = new_d
 
 def print_all_data(data):
     print('These are the data inserted:')
