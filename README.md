@@ -22,6 +22,5 @@ Save it and digit chmod 700 file
 
 - Add a more readable file to set up the Data to read
 - API from MI band --> Google Fit
-- Weigth from a balance
 - Run activity Log ?
 - GUI
