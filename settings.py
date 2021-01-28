@@ -38,7 +38,7 @@ daily_actions_data = {'Sleep': ['L', 'time'],
                       'Operations': ['C', 'time'],
                       'My Tasks': ['I', 'time'],
                       'Family Tasks': ['J', 'time'],
-                      'Notes': ['L', 'str'],
+                      'Notes': ['N', 'str'],
                       }
 
 data_for_check = ['Work', 'Learning', 'Sport', 'Side projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'Meditation', 'Affirmation&Visualization', 'My Tasks', 'Family Tasks']
