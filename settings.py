@@ -29,7 +29,7 @@ weekly_activities_not_in_row = ['Notes']
 weekly_activities_with_sub = ['Learning', 'Side projects', 'Fun', 'Sport']
 daily_actions_data = {'Sleep': ['L', 'time'],
                       'Work': ['B', 'time'],
-                      'Learning': ['D', 'time', {'reading': 14, 'english': 15, 'GCP certifications': 16}],
+                      'Learning': ['D', 'time', {'reading': 14, 'english': 15, 'GCP certifications': 16, 'Other': 18}],
                       'Sport': ['F', 'time', {'Run': 2, 'Football': 3, 'Hiking': 4, 'Tennis': 5, 'Yoga': 6, 'Other': 8}],
                       'Side projects': ['E', 'time', {'Website': 23, '3d Printing': 24, 'Other': 28}],
                       'Fun': ['G', 'time', {'Martina': 33, 'Movies': 34, 'Football': 35, 'Go out': 36, 'Trips': 37, 'Chess': 38, 'Board games': 39, 'Youtube':40, 'Other': 42}],
