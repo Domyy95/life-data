@@ -10,8 +10,8 @@ daily_data_start_l = 'B'
 daily_data = {'Sleep start': ['B', 'hour'],
               'Awake': ['C', 'hour'],
               'Morning workout': ['D', 'time'],
-              'Meditation': ['E', 'time'],
-              'Affirmation&Visualization': ['F', 'time'],
+              'Meditation&Affirmation&Visualization': ['E', 'time'],
+              'Writing': ['F', 'time'],
               'Read night before': ['G', 'time'],
               'Brush teeth': ['H', 'check'],
               'Happiness': ['I', 'int'],
@@ -41,7 +41,7 @@ daily_actions_data = {'Sleep': ['L', 'time'],
                       'Notes': ['N', 'str'],
                       }
 
-data_for_check = ['Work', 'Learning', 'Sport', 'Side projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'Meditation', 'Affirmation&Visualization', 'My Tasks', 'Family Tasks']
+data_for_check = ['Work', 'Learning', 'Sport', 'Side projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'Meditation&Affirmation&Visualization', 'Writing', 'My Tasks', 'Family Tasks']
 hour_format = ' '
 yes_check_type = ['x', 'y', 'yes']
 check_type = ['no', 'nope'] + yes_check_type
