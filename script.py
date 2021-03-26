@@ -75,9 +75,7 @@ def upload_data(all_data):
                 if m >= 60:
                     h += 1
                     m -= 60
-                to_upload = f'{h} {m}'
-                to_upload_datetime = datetime.datetime.strptime(to_upload, '%H %M')
-                to_upload = to_upload_datetime.strftime('%H:%M')
+                to_upload = f'{h}:{m}'
                 worksheet.update(f'{from_n_to_letter[str(weekly_activities_x)]}{daily_actions_data[d][2][to_upload_name]}', to_upload, value_input_option="USER_ENTERED")
 
 def data_review(data):
