@@ -16,7 +16,7 @@ daily_data = {'Sleep start': ['B', 'hour'],
               'Brush teeth': ['H', 'check'],
               'Happiness': ['I', 'int'],
               'Vote': ['J', 'int'],
-              'Weight': ['K', 'int', [7]]
+              'Weight': ['K', 'float', [7]]
               }
 
 # Daily - Actions sheet + Weekly activities sheet

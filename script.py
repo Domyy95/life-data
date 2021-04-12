@@ -260,6 +260,12 @@ def verify_data(type, data):
         except ValueError:
             result = True
 
+    elif type == 'float':
+        try:
+            float(data)
+        except ValueError:
+            result = True
+
     elif type == 'check':
         if data.lower() not in check_type:
             result = True
