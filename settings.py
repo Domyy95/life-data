@@ -28,11 +28,11 @@ weekly_activities_order = ['Work', 'Operations', 'Learning', 'Side projects', 'S
 weekly_activities_not_in_row = ['Notes']
 weekly_activities_with_sub = ['Work', 'Learning', 'Side projects', 'Fun', 'Sport']
 daily_actions_data = {'Sleep': ['L', 'time'],
-                      'Work': ['B', 'time', {'Reply': 47, 'Ripetizioni': 48, 'Applications / Colloqui': 49}],
-                      'Learning': ['D', 'time', {'reading': 14, 'english': 15, 'GCP certifications': 16, 'Webinar / Courses': 17, 'Data Science': 18, 'Other': 19}],
+                      'Work': ['B', 'time', {'Reply': 48, 'Ripetizioni': 49, 'Applications / Colloqui': 50}],
+                      'Learning': ['D', 'time', {'reading': 15, 'english': 16, 'GCP certifications': 17, 'Webinar / Courses': 18, 'Data Science': 19, 'Other': 20}],
                       'Sport': ['F', 'time', {'Run': 2, 'Football': 3, 'Hiking': 4, 'Tennis': 5, 'Yoga': 6, 'Other': 8}],
-                      'Side projects': ['E', 'time', {'YouTube': 23, '3d Printing': 24, 'Challenges': 25, 'Other': 28}],
-                      'Fun': ['G', 'time', {'Martina': 33, 'Movies': 34, 'Football': 35, 'Go out': 36, 'Trips': 37, 'Chess': 38, 'Board games': 39, 'YouTube':40, 'Other': 42}],
+                      'Side projects': ['E', 'time', {'YouTube': 24, '3d Printing': 25, 'Challenges': 26, 'Other': 29}],
+                      'Fun': ['G', 'time', {'Martina': 34, 'Movies': 35, 'Football': 36, 'Go out': 37, 'Trips': 38, 'Chess': 39, 'Board games': 40, 'YouTube':41, 'Other': 43}],
                       'Talking': ['8', 'time'],
                       'Phone': ['K', 'time'],
                       'Operations': ['C', 'time'],
