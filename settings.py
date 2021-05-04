@@ -28,7 +28,7 @@ weekly_activities_order = ['Work', 'Operations', 'Learning', 'Side projects', 'S
 weekly_activities_not_in_row = ['Notes']
 weekly_activities_with_sub = ['Work', 'Learning', 'Side projects', 'Fun', 'Sport']
 daily_actions_data = {'Sleep': ['L', 'time'],
-                      'Work': ['B', 'time', {'Reply': 48, 'Ripetizioni': 49, 'Applications / Colloqui': 50}],
+                      'Work': ['B', 'time', {'Reply': 48, 'Ripetizioni': 49, 'Applications / Colloqui': 50, 'Works with IM': 51, 'Other': 53}],
                       'Learning': ['D', 'time', {'reading': 15, 'english': 16, 'GCP certifications': 17, 'Webinar / Courses': 18, 'Data Science': 19, 'Other': 20}],
                       'Sport': ['F', 'time', {'Run': 2, 'Football': 3, 'Hiking': 4, 'Tennis': 5, 'Yoga': 6, 'Other': 8}],
                       'Side projects': ['E', 'time', {'YouTube': 24, '3d Printing': 25, 'Challenges': 26, 'Other': 29}],
