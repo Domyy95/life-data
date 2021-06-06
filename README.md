@@ -24,4 +24,3 @@ Save it and digit chmod 700 file
 - API from MI band --> Google Fit
 - Run activity Log ?
 - GUI
-- Possibility to decide which date do you want to upload

@@ -2,17 +2,18 @@ from settings import *
 import datetime
 import gspread
 
-today = datetime.datetime.today()
-today = datetime.datetime.today() - datetime.timedelta(days=1) if today.hour < 6 else today
-day_of_the_year = datetime.datetime.now().timetuple().tm_yday
-day_of_the_year = day_of_the_year - 1 if today.hour < 8 else day_of_the_year
-week_day = today.isoweekday()
+choosen_day = datetime.datetime.today()
+choosen_day = datetime.datetime.today() - datetime.timedelta(days=1) if choosen_day.hour < 6 else choosen_day
+day_of_the_year = choosen_day.timetuple().tm_yday
+day_of_the_year = day_of_the_year - 1 if choosen_day.hour < 8 else day_of_the_year
+week_day = choosen_day.isoweekday()
 daily_data_y = day_of_the_year - 8
-weekly_activities_x = today.isocalendar()[1]
+weekly_activities_x = choosen_day.isocalendar()[1]
 
 def main():
     print(margin)
-    print(margin2 + f' {today.date()} ' + margin2)
+    read_day(choosen_day)
+    print(margin2 + f' {choosen_day.date()} ' + margin2)
     clean_daily_data()
     daily_data_r = read_daily_data()
     daily_action_r = read_daily_actions()
@@ -20,6 +21,37 @@ def main():
     data_review(all_data)
     upload_data(all_data)
     print(margin)
+
+def read_day(day):
+    print("Which day do you want to add?")
+    print("0 - Day just gone")
+    print("1 - Another day")
+    answer = input()
+    global choosen_day
+    global week_day
+    global daily_data_y
+    global weekly_activities_x
+
+    if int(answer) == 1:
+        ok_day = True
+        next = True
+        while ok_day:
+            while next:
+                print("how many days ago do you want to go?")
+                answer = int(input())
+                answer, next = verify_data('int', answer)
+
+            tmp_day = choosen_day - datetime.timedelta(days=answer)
+            print(f'Choosen day: {tmp_day.date()}. Ok? [y/n]')
+            answer = input()
+            ok_day, next = (False,False) if answer in yes_check_type else (True,True)
+
+        choosen_day = tmp_day
+        day_of_the_year = choosen_day.timetuple().tm_yday
+        day_of_the_year = day_of_the_year - 1 if choosen_day.hour < 8 else day_of_the_year
+        week_day = choosen_day.isoweekday()
+        daily_data_y = day_of_the_year - 8
+        weekly_activities_x = choosen_day.isocalendar()[1]
 
 def upload_data(all_data):
     sheet = google_api_auth()
@@ -92,7 +124,7 @@ def data_review(data):
             final_version = False
 
 def check_total_time(data):
-    should_be = datetime.datetime.combine(datetime.date(1, 1, 2), datetime.time(today.hour, today.minute))
+    should_be = datetime.datetime.combine(datetime.date(1, 1, 2), datetime.time(choosen_day.hour, choosen_day.minute))
     inserted = datetime.datetime.combine(datetime.date(1, 1, 1), datetime.time(data['Awake'].hour, data['Awake'].minute))
     for d in data:
         if d in data_for_check:
@@ -105,7 +137,7 @@ def check_total_time(data):
                 m = data[d].minute
                 inserted = inserted + datetime.timedelta(hours=h) + datetime.timedelta(minutes=m)
 
-    print(f'Computed h {inserted.hour}:{inserted.minute}, it should be {should_be.hour}:{should_be.minute}')
+    print(f'Computed h {inserted.hour}:{inserted.minute}')
 
 def modify_data(data, ref):
     next = True
@@ -282,6 +314,7 @@ def verify_data(type, data):
 
     return data_new, result
 
+# Deletes data that should not be read the choosen_day
 def clean_daily_data():
     to_delete = []
     for d in daily_data:
