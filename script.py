@@ -48,7 +48,7 @@ def read_day(day):
 
         choosen_day = tmp_day
         day_of_the_year = choosen_day.timetuple().tm_yday
-        day_of_the_year = day_of_the_year - 1 if choosen_day.hour < 8 else day_of_the_year
+        day_of_the_year = day_of_the_year
         week_day = choosen_day.isoweekday()
         daily_data_y = day_of_the_year - 8
         weekly_activities_x = choosen_day.isocalendar()[1]
