@@ -1,1 +1,3 @@
 /client_key.json
+.DS_Store
+env/bin/activate.csh
