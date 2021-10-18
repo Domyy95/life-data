@@ -14,10 +14,10 @@ def main():
     print(margin)
     read_day(choosen_day)
     print(margin2 + f' {choosen_day.date()} ' + margin2)
-    clean_daily_data()
     daily_data_r = read_daily_data()
     daily_action_r = read_daily_actions()
-    all_data = {**daily_data_r, **daily_action_r}
+    weekly_data=r = read_weekly_data()
+    all_data = {**daily_data_r, **daily_action_r, **weekly_data}
     data_review(all_data)
     upload_data(all_data)
     print(margin)
@@ -58,19 +58,14 @@ def upload_data(all_data):
 
     # Daily data
     to_upload = []
-    end_l = daily_data_start_l
     for d in daily_data:
         if isinstance(all_data[d], datetime.datetime):
             to_upload.append(all_data[d].strftime('%H:%M'))
         else:
             to_upload.append(all_data[d])
 
-        end_l = daily_data[d][0]
-
-    to_upload = [to_upload]
-
     worksheet = sheet.worksheet(daily_data_sheet)
-    worksheet.update(f'{daily_data_start_l}{daily_data_y}:{end_l}{daily_data_y}', to_upload, value_input_option="USER_ENTERED")
+    worksheet.update(f'{daily_data_start_col}{daily_data_y}:{daily_data_end_col}{daily_data_y}', [to_upload], value_input_option="USER_ENTERED")
 
     # Weekly actions
     to_upload = []
@@ -83,14 +78,20 @@ def upload_data(all_data):
         else:
             to_upload.append(all_data[d])
 
-    to_upload = [to_upload]
-
     worksheet = sheet.worksheet(daily_actions_sheet)
-    worksheet.update(f'{weekly_activities_start_end_sheet[0]}{daily_data_y}:{weekly_activities_start_end_sheet[1]}{daily_data_y}', to_upload, value_input_option="USER_ENTERED")
+    worksheet.update(f'{weekly_activities_start_end_sheet[0]}{daily_data_y}:{weekly_activities_start_end_sheet[1]}{daily_data_y}', [to_upload], value_input_option="USER_ENTERED")
 
     for d in weekly_activities_not_in_row:
         to_upload = all_data[d]
         worksheet.update(f'{daily_actions_data[d][0]}{daily_data_y}', to_upload, value_input_option="USER_ENTERED")
+
+    # Weekly Data
+    to_upload = []
+    for d in weekly_data:
+        to_upload.append(all_data[d])
+
+    worksheet = sheet.worksheet(weekly_actions_sheet)
+    worksheet.update(f'{weekly_data_start_col}{str(weekly_activities_x +1)}:{weekly_data_end_col}{str(weekly_activities_x +1)}', [to_upload], value_input_option="USER_ENTERED")
 
     # Weekly activities
     worksheet = sheet.worksheet(weekly_activities_sheet)
@@ -172,6 +173,22 @@ def print_all_data(data):
         else:
             print(f'({n}) {d} - {data[d]}')
 
+def read_weekly_data():
+    result = {}
+    if week_day == weekly_asked_day:
+        print(title3)
+        for data in weekly_data:
+            next = True
+            while next:
+                print(f'{data}: ')
+                readed_data = input()
+                readed_data, next = verify_data(weekly_data[data][1], readed_data)
+
+            result[data] = readed_data
+
+        print(margin)
+
+    return result
 
 def read_daily_data():
     print(title1)
@@ -313,17 +330,6 @@ def verify_data(type, data):
         print('Data not correct, reinsert pls')
 
     return data_new, result
-
-# Deletes data that should not be read the choosen_day
-def clean_daily_data():
-    to_delete = []
-    for d in daily_data:
-        if len(daily_data[d]) == 3:
-            if week_day not in daily_data[d][2]:
-                to_delete.append(d)
-
-    for d in to_delete:
-        del daily_data[d]
 
 if __name__ == "__main__":
     main()

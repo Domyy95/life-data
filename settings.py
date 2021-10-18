@@ -5,7 +5,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 data_file_name = '2021_action_activity'
 # Daily - Data sheet
 daily_data_sheet = 'Daily - Data'
-daily_data_start_l = 'B'
+daily_data_start_col = 'B'
+daily_data_end_col = 'J'
 # name: coloumn on sheet, type of data, when to ask (default daily)
 daily_data = {'Sleep start': ['B', 'hour'],
               'Awake': ['C', 'hour'],
@@ -15,13 +16,25 @@ daily_data = {'Sleep start': ['B', 'hour'],
               'Read night before': ['G', 'time'],
               'Brush teeth': ['H', 'int'],
               'Happiness': ['I', 'int'],
-              'Vote': ['J', 'int'],
-              'Weight': ['K', 'float', [7]]
+              'Vote': ['J', 'int']
               }
+
+# Weekly - Actions sheet
+# Asked only once a week
+weekly_actions_sheet = 'Weekly - Actions'
+weekly_asked_day = 7 # Sunday
+weekly_data_start_col = 'AA'
+weekly_data_end_col = 'AC'
+weekly_data = {
+    'Week Notes': ['AA', 'str'],
+    'Week Vote': ['AB', 'int'],
+    'Weight': ['AC', 'float']
+}
 
 # Daily - Actions sheet + Weekly activities sheet
 daily_actions_sheet = 'Daily - Actions'
 weekly_activities_sheet = 'Weekly - Activities'
+
 # name: coloumn on sheet, type of data, categories if presents
 weekly_activities_start_end_sheet = ['B', 'L']
 weekly_activities_order = ['Work', 'Operations', 'Learning', 'Side projects', 'Sport', 'Fun', 'Talking', 'My Tasks', 'Family Tasks', 'Phone', 'Sleep']
@@ -104,6 +117,7 @@ confirm_data = 99
 margin = ' = = = = =  = = = = =  = = = = =  = = = = =  = = = = =  = = = = = = = =  '
 title1 = ' = = = = =  = = = = =  Daily Data     = = = = =  = = = = =  '
 title2 = ' = = = = =  = = = = =  Daily Actions  = = = = =  = = = = =  '
+title3 = ' = = = = =  = = = = =  Weekly Data  = = = = =  = = = = =  '
 margin2 = ' = = = = =  = = = = = '
 ask_sub_data = 'In which category is this action?'
 
@@ -118,7 +132,6 @@ def google_api_auth():
     client = gspread.authorize(creds)
     sheet = client.open(data_file_name)
     return sheet
-
 
 def read_test(sheet):
     python_sheet = sheet.get_all_values()
