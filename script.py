@@ -86,12 +86,13 @@ def upload_data(all_data):
         worksheet.update(f'{daily_actions_data[d][0]}{daily_data_y}', to_upload, value_input_option="USER_ENTERED")
 
     # Weekly Data
-    to_upload = []
-    for d in weekly_data:
-        to_upload.append(all_data[d])
+    if len(weekly_data) > 0:
+        to_upload = []
+        for d in weekly_data:
+            to_upload.append(all_data[d])
 
-    worksheet = sheet.worksheet(weekly_actions_sheet)
-    worksheet.update(f'{weekly_data_start_col}{str(weekly_activities_x +1)}:{weekly_data_end_col}{str(weekly_activities_x +1)}', [to_upload], value_input_option="USER_ENTERED")
+        worksheet = sheet.worksheet(weekly_actions_sheet)
+        worksheet.update(f'{weekly_data_start_col}{str(weekly_activities_x +1)}:{weekly_data_end_col}{str(weekly_activities_x +1)}', [to_upload], value_input_option="USER_ENTERED")
 
     # Weekly activities
     worksheet = sheet.worksheet(weekly_activities_sheet)
