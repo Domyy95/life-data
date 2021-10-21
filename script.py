@@ -86,7 +86,7 @@ def upload_data(all_data):
         worksheet.update(f'{daily_actions_data[d][0]}{daily_data_y}', to_upload, value_input_option="USER_ENTERED")
 
     # Weekly Data
-    if len(weekly_data) > 0:
+    if any([x in all_data for x in weekly_data]):
         to_upload = []
         for d in weekly_data:
             to_upload.append(all_data[d])
