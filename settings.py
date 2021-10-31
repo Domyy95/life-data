@@ -13,7 +13,7 @@ daily_data = {'Sleep start': ['B', 'hour'],
               'Morning workout': ['D', 'time'],
               'Meditation&Affirmation&Visualization': ['E', 'time'],
               'Writing': ['F', 'time'],
-              'Read night before': ['G', 'time'],
+              'Read before sleep': ['G', 'time'],
               'Brush teeth': ['H', 'int'],
               'Happiness': ['I', 'int'],
               'Vote': ['J', 'int']
