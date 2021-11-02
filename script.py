@@ -126,7 +126,6 @@ def data_review(data):
             final_version = False
 
 def check_total_time(data):
-    should_be = datetime.datetime.combine(datetime.date(1, 1, 2), datetime.time(choosen_day.hour, choosen_day.minute))
     inserted = datetime.datetime.combine(datetime.date(1, 1, 1), datetime.time(data['Awake'].hour, data['Awake'].minute))
     for d in data:
         if d in data_for_check:

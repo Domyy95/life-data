@@ -44,7 +44,7 @@ daily_actions_data = {'Sleep': ['L', 'time'],
                       'Work': ['B', 'time', {'Reply': 48, 'Ripetizioni': 49, 'Applications': 50,'Works with IM': 51, 'Other': 53}],
                       'Learning': ['D', 'time', {'reading': 14, 'english': 15, 'GCP certifications': 16, 'Webinar / Courses': 17, 'Data Science': 18, 'Other': 19}],
                       'Sport': ['F', 'time', {'Run': 2, 'Football': 3, 'Hiking': 4, 'Tennis': 5, 'Yoga': 6, 'Other': 8}],
-                      'Side projects': ['E', 'time', {'YouTube': 24, '3d Printing': 25, 'Challenges': 26, 'Other': 29}],
+                      'Side projects': ['E', 'time', {'3d Printing': 24, 'Challenges': 25, 'Other': 29}],
                       'Fun': ['G', 'time', {'Martina': 34, 'Movies': 35, 'Football': 36, 'Go out': 37, 'Trips': 38, 'Chess': 39, 'Board games': 40, 'YouTube':41, 'Other': 43}],
                       'Talking': ['8', 'time'],
                       'Phone': ['K', 'time'],
@@ -54,7 +54,7 @@ daily_actions_data = {'Sleep': ['L', 'time'],
                       'Notes': ['N', 'str'],
                       }
 
-data_for_check = ['Work', 'Learning', 'Sport', 'Side projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'Meditation&Affirmation&Visualization', 'Writing', 'My Tasks', 'Family Tasks']
+data_for_check = ['Work', 'Learning', 'Sport', 'Side projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'Meditation&Affirmation&Visualization', 'Writing', 'My Tasks', 'Family Tasks','Read before sleep']
 hour_format = ' '
 yes_check_type = ['x', 'y', 'yes']
 check_type = ['no', 'nope'] + yes_check_type
