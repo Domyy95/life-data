@@ -2,62 +2,64 @@ import gspread
 import pprint
 from oauth2client.service_account import ServiceAccountCredentials
 
-data_file_name = '2021_action_activity'
+data_file_name = '2022_action_activity'
 # Daily - Data sheet
 daily_data_sheet = 'Daily - Data'
 daily_data_start_col = 'B'
-daily_data_end_col = 'J'
+daily_data_end_col = 'L'
 # name: coloumn on sheet, type of data, when to ask (default daily)
 daily_data = {'Sleep start': ['B', 'hour'],
               'Awake': ['C', 'hour'],
               'Morning workout': ['D', 'time'],
-              'Meditation&Affirmation&Visualization': ['E', 'time'],
-              'Writing': ['F', 'time'],
-              'Read before sleep': ['G', 'time'],
-              'Brush teeth': ['H', 'int'],
+              'Read before sleep': ['E', 'time'],
+              'Brush teeth': ['F', 'int'],
+              'Out Home': ['G', 'check'],
+              'Eat meet': ['H', 'check'],
               'Happiness': ['I', 'int'],
-              'Vote': ['J', 'int']
+              'Vote': ['J', 'int'],
+              'Notes': ['K', 'str'],
+              'Something new?': ['L', 'str'],
               }
 
 # Weekly - Actions sheet
 # Asked only once a week
 weekly_actions_sheet = 'Weekly - Actions'
 weekly_asked_day = 7 # Sunday
-weekly_data_start_col = 'AA'
-weekly_data_end_col = 'AC'
+weekly_data_start_col = 'AD'
+weekly_data_end_col = 'AF'
 weekly_data = {
-    'Week Notes': ['AA', 'str'],
-    'Week Vote': ['AB', 'int'],
-    'Weight': ['AC', 'float']
+    'Week Notes': ['AD', 'str'],
+    'Week Vote': ['AE', 'int'],
+    'Weight': ['AF', 'float']
 }
 
-# Daily - Actions sheet + Weekly activities sheet
+# Daily - Actions sheet + Daily activities sheet
 daily_actions_sheet = 'Daily - Actions'
-weekly_activities_sheet = 'Weekly - Activities'
+daily_sub_activities_sheet = 'Daily - subActions'
 
 # name: coloumn on sheet, type of data, categories if presents
-weekly_activities_start_end_sheet = ['B', 'L']
-weekly_activities_order = ['Work', 'Operations', 'Learning', 'Side projects', 'Sport', 'Fun', 'Talking', 'My Tasks', 'Family Tasks', 'Phone', 'Sleep']
-weekly_activities_not_in_row = ['Notes']
-weekly_activities_with_sub = ['Work', 'Learning', 'Side projects', 'Fun', 'Sport']
 daily_actions_data = {'Sleep': ['L', 'time'],
-                      'Work': ['B', 'time', {'Reply': 48, 'Ripetizioni': 49, 'Applications': 50,'Works with IM': 51, 'Other': 53}],
-                      'Learning': ['D', 'time', {'reading': 14, 'english': 15, 'GCP certifications': 16, 'Webinar / Courses': 17, 'Data Science': 18, 'Other': 19}],
-                      'Sport': ['F', 'time', {'Run': 2, 'Football': 3, 'Hiking': 4, 'Tennis': 5, 'Yoga': 6, 'Other': 8}],
-                      'Side projects': ['E', 'time', {'3d Printing': 24, 'Challenges': 25, 'Other': 29}],
-                      'Fun': ['G', 'time', {'Martina': 34, 'Movies': 35, 'Football': 36, 'Go out': 37, 'Trips': 38, 'Chess': 39, 'Board games': 40, 'YouTube':41, 'Other': 43}],
-                      'Talking': ['8', 'time'],
-                      'Phone': ['K', 'time'],
-                      'Operations': ['C', 'time'],
-                      'My Tasks': ['I', 'time'],
-                      'Family Tasks': ['J', 'time'],
-                      'Notes': ['N', 'str'],
+                      'Personal act': ['B', 'time', {'Planning': 59, 'Writing': 60, 'Meditation': 61, 'Other': 64}],
+                      'Work': ['C', 'time', {'TuoTempo': 49, 'Works with IM': 50, 'Reply': 53, 'Other': 54}],
+                      'Learning': ['E', 'time', {'reading': 15, 'Webinar / Courses': 16, 'Toblerone': 17, 'Challenges': 18, 'Data Science': 19, 'Other': 20}],
+                      'Sport': ['F', 'time', {'Run': 3, 'Football': 4, 'Hiking': 5, 'Tennis': 6, 'Yoga': 7, 'Other': 9}],
+                      'Personal projects': ['F', 'time', {'3d Printing': 25, 'MasterMind': 26, 'Other': 30}],
+                      'Fun': ['H', 'time', {'Martina': 35, 'Movies': 36, 'Football': 37, 'Friends time': 38, 'Trips': 39, 'Chess': 40, 'Board games': 41, 'YouTube':42, 'Other': 44}],
+                      'Talking': ['I', 'time'],
+                      'Phone': ['L', 'time'],
+                      'Operations': ['D', 'time'],
+                      'My Tasks': ['J', 'time'],
+                      'Family Tasks': ['K', 'time'],
                       }
 
-data_for_check = ['Work', 'Learning', 'Sport', 'Side projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'Meditation&Affirmation&Visualization', 'Writing', 'My Tasks', 'Family Tasks','Read before sleep']
+daily_actions_start_end_sheet = ['B', 'M']
+day_actions_order = ['Personal act','Work', 'Operations', 'Learning', 'Personal projects', 'Sport', 'Fun', 'Talking', 'My Tasks', 'Family Tasks', 'Phone', 'Sleep']
+activities_with_sub = ['Personal act', 'Work', 'Learning', 'Personal projects', 'Fun', 'Sport']
+
+data_for_check = ['Personal act','Work', 'Learning', 'Sport', 'Personal projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'Meditation&Affirmation&Visualization', 'Writing', 'My Tasks', 'Family Tasks','Read before sleep']
 hour_format = ' '
 yes_check_type = ['x', 'y', 'yes']
-check_type = ['no', 'nope'] + yes_check_type
+check_type = ['no', 'nope','n'] + yes_check_type
 
 from_n_to_letter = {
     '2': 'B',

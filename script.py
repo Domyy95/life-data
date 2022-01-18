@@ -1,13 +1,11 @@
 from settings import *
 import datetime
-import gspread
 
 choosen_day = datetime.datetime.today()
 choosen_day = datetime.datetime.today() - datetime.timedelta(days=1) if choosen_day.hour < 6 else choosen_day
 day_of_the_year = choosen_day.timetuple().tm_yday
-day_of_the_year = day_of_the_year - 1 if choosen_day.hour < 8 else day_of_the_year
+daily_data_y = day_of_the_year
 week_day = choosen_day.isoweekday()
-daily_data_y = day_of_the_year - 8
 weekly_activities_x = choosen_day.isocalendar()[1]
 
 def main():
@@ -23,35 +21,31 @@ def main():
     print(margin)
 
 def read_day(day):
-    print("Which day do you want to add?")
-    print("0 - Day just gone")
-    print("1 - Another day")
-    answer = input()
     global choosen_day
     global week_day
     global daily_data_y
+    global day_of_the_year
     global weekly_activities_x
 
-    if int(answer) == 1:
-        ok_day = True
-        next = True
-        while ok_day:
-            while next:
-                print("how many days ago do you want to go?")
-                answer = int(input())
-                answer, next = verify_data('int', answer)
+    ok_day = True
+    next = True
+    while ok_day:
+        while next:
+            print("How many days ago do you want to go?")
+            answer = int(input())
+            answer, next = verify_data('int', answer)
 
-            tmp_day = choosen_day - datetime.timedelta(days=answer)
-            print(f'Choosen day: {tmp_day.date()}. Ok? [y/n]')
-            answer = input()
-            ok_day, next = (False,False) if answer in yes_check_type else (True,True)
+        tmp_day = choosen_day - datetime.timedelta(days=answer)
+        print(f'Choosen day: {tmp_day.date()}. Ok? [y/n]')
+        answer = input()
+        ok_day, next = (False,False) if answer in yes_check_type else (True,True)
 
-        choosen_day = tmp_day
-        day_of_the_year = choosen_day.timetuple().tm_yday
-        day_of_the_year = day_of_the_year
-        week_day = choosen_day.isoweekday()
-        daily_data_y = day_of_the_year - 8
-        weekly_activities_x = choosen_day.isocalendar()[1]
+    choosen_day = tmp_day
+    day_of_the_year = choosen_day.timetuple().tm_yday
+    daily_data_y = day_of_the_year
+    week_day = choosen_day.isoweekday()
+    weekly_activities_x = choosen_day.isocalendar()[1] + 2
+    print(f'weekly_activities_x: {weekly_activities_x}')
 
 def upload_data(all_data):
     sheet = google_api_auth()
@@ -67,10 +61,10 @@ def upload_data(all_data):
     worksheet = sheet.worksheet(daily_data_sheet)
     worksheet.update(f'{daily_data_start_col}{daily_data_y}:{daily_data_end_col}{daily_data_y}', [to_upload], value_input_option="USER_ENTERED")
 
-    # Weekly actions
+    # Daily actions
     to_upload = []
 
-    for d in weekly_activities_order:
+    for d in day_actions_order:
         if isinstance(all_data[d], datetime.datetime):
             to_upload.append(all_data[d].strftime('%H:%M'))
         elif isinstance(all_data[d], list):
@@ -79,11 +73,7 @@ def upload_data(all_data):
             to_upload.append(all_data[d])
 
     worksheet = sheet.worksheet(daily_actions_sheet)
-    worksheet.update(f'{weekly_activities_start_end_sheet[0]}{daily_data_y}:{weekly_activities_start_end_sheet[1]}{daily_data_y}', [to_upload], value_input_option="USER_ENTERED")
-
-    for d in weekly_activities_not_in_row:
-        to_upload = all_data[d]
-        worksheet.update(f'{daily_actions_data[d][0]}{daily_data_y}', to_upload, value_input_option="USER_ENTERED")
+    worksheet.update(f'{daily_actions_start_end_sheet[0]}{daily_data_y}:{daily_actions_start_end_sheet[1]}{daily_data_y}', [to_upload], value_input_option="USER_ENTERED")
 
     # Weekly Data
     if any([x in all_data for x in weekly_data]):
@@ -92,25 +82,24 @@ def upload_data(all_data):
             to_upload.append(all_data[d])
 
         worksheet = sheet.worksheet(weekly_actions_sheet)
-        worksheet.update(f'{weekly_data_start_col}{str(weekly_activities_x +1)}:{weekly_data_end_col}{str(weekly_activities_x +1)}', [to_upload], value_input_option="USER_ENTERED")
+        worksheet.update(f'{weekly_data_start_col}{str(weekly_activities_x)}:{weekly_data_end_col}{str(weekly_activities_x)}', [to_upload], value_input_option="USER_ENTERED")
 
-    # Weekly activities
-    worksheet = sheet.worksheet(weekly_activities_sheet)
-    for d in weekly_activities_with_sub:
+    # Daily sub activities
+    worksheet = sheet.worksheet(daily_sub_activities_sheet)
+    for d in activities_with_sub:
         if isinstance(all_data[d], list):
             to_upload_rows = all_data[d][1]
             for to_upload_name in to_upload_rows:
-                old_data = worksheet.cell(int(daily_actions_data[d][2][to_upload_name]), int(weekly_activities_x)).value.split(':')
-                h = int(old_data[0])
-                m = int(old_data[1]) if len(old_data) >= 2 else 0
                 to_upload = all_data[d][1][to_upload_name]
-                h += int(to_upload.hour)
-                m += int(to_upload.minute)
+                h = int(to_upload.hour)
+                m = int(to_upload.minute)
                 if m >= 60:
                     h += 1
                     m -= 60
+                m = '00' if m==0 else m
                 to_upload = f'{h}:{m}'
-                worksheet.update(f'{from_n_to_letter[str(weekly_activities_x)]}{daily_actions_data[d][2][to_upload_name]}', to_upload, value_input_option="USER_ENTERED")
+                worksheet.update(f'{base_10_to_alphabet(day_of_the_year-1)}{daily_actions_data[d][2][to_upload_name]}', to_upload, value_input_option="USER_ENTERED")
+
 
 def data_review(data):
     number_to_ref = {n:d for n,d in enumerate(data)}
@@ -331,5 +320,30 @@ def verify_data(type, data):
 
     return data_new, result
 
+A_UPPERCASE = ord('A')
+ALPHABET_SIZE = 26
+
+def _decompose(number):
+    """Generate digits from `number` in base alphabet, least significants
+    bits first.
+
+    Since A is 1 rather than 0 in base alphabet, we are dealing with
+    `number - 1` at each iteration to be able to extract the proper digits.
+    """
+
+    while number:
+        number, remainder = divmod(number - 1, ALPHABET_SIZE)
+        yield remainder
+
+
+def base_10_to_alphabet(number):
+    """Convert a decimal number to its base alphabet representation"""
+
+    return ''.join(
+            chr(A_UPPERCASE + part)
+            for part in _decompose(number)
+    )[::-1]
+
 if __name__ == "__main__":
     main()
+
