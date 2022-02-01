@@ -2,23 +2,27 @@ from settings import *
 import datetime
 
 choosen_day = datetime.datetime.today()
-choosen_day = datetime.datetime.today() - datetime.timedelta(days=1) if choosen_day.hour < 6 else choosen_day
 day_of_the_year = choosen_day.timetuple().tm_yday
 daily_data_y = day_of_the_year
 week_day = choosen_day.isoweekday()
 weekly_activities_x = choosen_day.isocalendar()[1]
 
 def main():
-    print(margin)
-    read_day(choosen_day)
-    print(margin2 + f' {choosen_day.date()} ' + margin2)
-    daily_data_r = read_daily_data()
-    daily_action_r = read_daily_actions()
-    weekly_data=r = read_weekly_data()
-    all_data = {**daily_data_r, **daily_action_r, **weekly_data}
-    data_review(all_data)
-    upload_data(all_data)
-    print(margin)
+    another_day = True
+    while another_day:
+        print(margin)
+        read_day(choosen_day)
+        print(margin2 + f' {choosen_day.date()} ' + margin2)
+        daily_data_r = read_daily_data()
+        daily_action_r = read_daily_actions()
+        weekly_data=r = read_weekly_data()
+        all_data = {**daily_data_r, **daily_action_r, **weekly_data}
+        data_review(all_data)
+        upload_data(all_data)
+        print(margin)
+
+        another_day = repeat_question()
+
 
 def read_day(day):
     global choosen_day
@@ -26,6 +30,7 @@ def read_day(day):
     global daily_data_y
     global day_of_the_year
     global weekly_activities_x
+    choosen_day = datetime.datetime.today()
 
     ok_day = True
     next = True
@@ -45,7 +50,14 @@ def read_day(day):
     daily_data_y = day_of_the_year
     week_day = choosen_day.isoweekday()
     weekly_activities_x = choosen_day.isocalendar()[1] + 2
-    print(f'weekly_activities_x: {weekly_activities_x}')
+
+def repeat_question():
+    print('Do you want to insert another day?')
+    answer = input()
+    if answer in yes_check_type: 
+        return True 
+    else: 
+        return False
 
 def upload_data(all_data):
     sheet = google_api_auth()
