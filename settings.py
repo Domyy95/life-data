@@ -39,7 +39,7 @@ daily_sub_activities_sheet = 'Daily - subActions'
 
 # name: coloumn on sheet, type of data, categories if presents
 daily_actions_data = {'Sleep': ['L', 'time'],
-                      'Personal act': ['B', 'time', {'Planning': 59, 'Writing': 60, 'Meditation': 61, 'Other': 64}],
+                      'Personal act': ['B', 'time', {'Planning': 59, 'Writing': 60, 'Meditation': 61, 'Investments': 62, 'Other': 64}],
                       'Work': ['C', 'time', {'TuoTempo': 49, 'Works with IM': 50, 'Reply': 53, 'Other': 54}],
                       'Learning': ['E', 'time', {'reading': 15, 'Webinar / Courses': 16, 'Toblerone': 17, 'Challenges': 18, 'Data Science': 19, 'Other': 20}],
                       'Sport': ['F', 'time', {'Run': 3, 'Football': 4, 'Hiking': 5, 'Tennis': 6, 'Yoga': 7, 'Other': 9}],
@@ -56,7 +56,7 @@ daily_actions_start_end_sheet = ['B', 'M']
 day_actions_order = ['Personal act','Work', 'Operations', 'Learning', 'Personal projects', 'Sport', 'Fun', 'Talking', 'My Tasks', 'Family Tasks', 'Phone', 'Sleep']
 activities_with_sub = ['Personal act', 'Work', 'Learning', 'Personal projects', 'Fun', 'Sport']
 
-data_for_check = ['Personal act','Work', 'Learning', 'Sport', 'Personal projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'Meditation&Affirmation&Visualization', 'Writing', 'My Tasks', 'Family Tasks','Read before sleep']
+data_for_check = ['Personal act','Work', 'Learning', 'Sport', 'Personal projects', 'Fun', 'Talking', 'Phone', 'Operations', 'Morning workout', 'My Tasks', 'Family Tasks','Read before sleep']
 hour_format = ' '
 yes_check_type = ['x', 'y', 'yes']
 check_type = ['no', 'nope','n'] + yes_check_type
