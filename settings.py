@@ -41,7 +41,7 @@ daily_sub_activities_sheet = 'Daily - subActions'
 daily_actions_data = {'Sleep': ['L', 'time'],
                       'Personal act': ['B', 'time', {'Planning': 59, 'Writing': 60, 'Meditation': 61, 'Investments': 62, 'Other': 64}],
                       'Work': ['C', 'time', {'TuoTempo': 49, 'Works with IM': 50, 'Other': 54}],
-                      'Learning': ['E', 'time', {'reading': 15, 'Webinar / Courses': 16, 'Toblerone': 17, 'Challenges': 18, 'Data Science': 19, 'Other': 20}],
+                      'Learning': ['E', 'time', {'reading': 15, 'Webinar / Courses': 16, 'Toblerone': 17, 'Piano': 18, 'Data Science': 19, 'Other': 20}],
                       'Sport': ['F', 'time', {'Run': 3, 'Football': 4, 'Hiking': 5, 'Tennis': 6, 'Yoga': 7, 'Other': 9}],
                       'Personal projects': ['F', 'time', {'3d Printing': 25, 'Health remote working ': 26, 'Other': 30}],
                       'Fun': ['H', 'time', {'Martina': 35, 'Movies': 36, 'Football': 37, 'Friends time': 38, 'Trips': 39, 'Chess': 40, 'Board games': 41, 'YouTube':42, 'Other': 44}],
