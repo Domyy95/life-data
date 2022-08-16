@@ -25,12 +25,12 @@ daily_data = {'Sleep start': ['B', 'hour'],
 # Asked only once a week
 weekly_actions_sheet = 'Weekly - Actions'
 weekly_asked_day = 7 # Sunday
-weekly_data_start_col = 'AD'
-weekly_data_end_col = 'AF'
+weekly_data_start_col = 'Q'
+weekly_data_end_col = 'S'
 weekly_data = {
-    'Week Notes': ['AD', 'str'],
-    'Week Vote': ['AE', 'int'],
-    'Weight': ['AF', 'float']
+    'Week Notes': ['Q', 'str'],
+    'Week Vote': ['R', 'int'],
+    'Weight': ['S', 'float']
 }
 
 # Daily - Actions sheet + Daily activities sheet

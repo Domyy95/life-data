@@ -49,7 +49,7 @@ def read_day(day):
     day_of_the_year = choosen_day.timetuple().tm_yday
     daily_data_y = day_of_the_year
     week_day = choosen_day.isoweekday()
-    weekly_activities_x = choosen_day.isocalendar()[1] + 2
+    weekly_activities_x = choosen_day.isocalendar()[1] + 1
 
 def repeat_question():
     print('Do you want to insert another day?')
