@@ -19,6 +19,8 @@ daily_data = {'Sleep start': ['B', 'hour'],
               'Vote': ['J', 'int'],
               'Notes': ['K', 'str'],
               'Something new?': ['L', 'str'],
+              'First food': ['M', 'time'],
+              'Last food': ['N', 'time'],
               }
 
 # Weekly - Actions sheet
