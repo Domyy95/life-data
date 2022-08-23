@@ -6,7 +6,7 @@ data_file_name = '2022_action_activity'
 # Daily - Data sheet
 daily_data_sheet = 'Daily - Data'
 daily_data_start_col = 'B'
-daily_data_end_col = 'L'
+daily_data_end_col = 'N'
 # name: coloumn on sheet, type of data, when to ask (default daily)
 daily_data = {'Sleep start': ['B', 'hour'],
               'Awake': ['C', 'hour'],
