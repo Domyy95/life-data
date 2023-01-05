@@ -47,7 +47,7 @@ def read_day(day):
 
     choosen_day = tmp_day
     day_of_the_year = choosen_day.timetuple().tm_yday
-    daily_data_y = day_of_the_year
+    daily_data_y = day_of_the_year + year_offset
     week_day = choosen_day.isoweekday()
     weekly_activities_x = choosen_day.isocalendar()[1] + 1
 
@@ -110,7 +110,7 @@ def upload_data(all_data):
                     m -= 60
                 m = '00' if m==0 else m
                 to_upload = f'{h}:{m}'
-                worksheet.update(f'{base_10_to_alphabet(day_of_the_year-1)}{daily_actions_data[d][2][to_upload_name]}', to_upload, value_input_option="USER_ENTERED")
+                worksheet.update(f'{base_10_to_alphabet(day_of_the_year - 1 + year_offset)}{daily_actions_data[d][2][to_upload_name]}', to_upload, value_input_option="USER_ENTERED")
 
 
 def data_review(data):
