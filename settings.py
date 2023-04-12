@@ -43,7 +43,7 @@ daily_sub_activities_sheet = 'Daily - subActions'
 # name: coloumn on sheet, type of data, categories if presents
 daily_actions_data = {'Sleep': ['L', 'time'],
                       'Personal act': ['B', 'time', {'Planning': 59, 'Writing': 60, 'Meditation': 61, 'Investments': 62, 'Other': 64}],
-                      'Work': ['C', 'time', {'TuoTempo': 49, 'Personal Jobs': 50,'Works with IM': 51, 'Other': 54}],
+                      'Work': ['C', 'time', {'TuoTempo': 49, 'Personal Jobs': 50,'Works with IM': 51, 'JobToMe':52, 'Other': 54}],
                       'Learning': ['E', 'time', {'reading': 15, 'Webinar / Courses': 16, 'Piano': 17, 'Other': 20}],
                       'Sport': ['F', 'time', {'Run': 3, 'Hiking': 4, 'Yoga': 5, 'Climbing': 6, 'Football': 7, 'Other': 9}],
                       'Personal projects': ['F', 'time', {'3d Printing': 25, 'Health remote working ': 26, 'Other': 30}],
