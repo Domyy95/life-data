@@ -16,7 +16,13 @@ insert in a file:
     cd Desktop/life-data
     python3 script.py
 
-Save it and digit chmod 700 file
+Save it and digit 
+
+    chmod 700 file_name
+
+## Icon
+
+- Open the informations of the script file_name and move the icon on the image
 
 ## Next steps
 
