@@ -32,8 +32,9 @@ weekly_data_start_col = 'Q'
 weekly_data_end_col = 'S'
 weekly_data = {
     'Week Notes': ['Q', 'str'],
-    'Week Vote': ['R', 'int'],
-    'Weight': ['S', 'float']
+    'Week Retrospective': ['R', 'str'],
+    'Week Vote': ['S', 'int'],
+    'Weight': ['T', 'float']
 }
 
 # Daily - Actions sheet + Daily activities sheet
