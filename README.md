@@ -29,4 +29,4 @@ Save it and digit
 - Add a more readable file to set up the Data to read
 - API from MI band --> Google Fit
 - Run activity Log ?
-- GUI
+- GUI --> https://www.textualize.io/
