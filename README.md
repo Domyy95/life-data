@@ -14,6 +14,7 @@ insert in a file:
 
     #!/bin/bash
     cd Desktop/life-data
+    python3 random_quotes.py
     python3 script.py
 
 Save it and digit 
