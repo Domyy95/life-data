@@ -7,15 +7,16 @@ daily_data_y = day_of_the_year
 week_day = choosen_day.isoweekday()
 weekly_activities_x = choosen_day.isocalendar()[1]
 
+
 def main():
     another_day = True
     while another_day:
         print(margin)
         read_day(choosen_day)
-        print(margin2 + f' {choosen_day.date()} ' + margin2)
+        print(margin2 + f" {choosen_day.date()} " + margin2)
         daily_data_r = read_daily_data()
         daily_action_r = read_daily_actions()
-        weekly_data=r = read_weekly_data()
+        weekly_data = read_weekly_data()
         all_data = {**daily_data_r, **daily_action_r, **weekly_data}
         data_review(all_data)
         upload_data(all_data)
@@ -38,12 +39,12 @@ def read_day(day):
         while next:
             print("How many days ago do you want to go?")
             answer = int(input())
-            answer, next = verify_data('int', answer)
+            answer, next = verify_data("int", answer)
 
         tmp_day = choosen_day - datetime.timedelta(days=answer)
-        print(f'Choosen day: {tmp_day.date()}. Ok? [y/n]')
+        print(f"Choosen day: {tmp_day.date()}. Ok? [y/n]")
         answer = input()
-        ok_day, next = (False,False) if answer in yes_check_type else (True,True)
+        ok_day, next = (False, False) if answer in yes_check_type else (True, True)
 
     choosen_day = tmp_day
     day_of_the_year = choosen_day.timetuple().tm_yday
@@ -51,13 +52,15 @@ def read_day(day):
     week_day = choosen_day.isoweekday()
     weekly_activities_x = choosen_day.isocalendar()[1] + 1
 
+
 def repeat_question():
-    print('Do you want to insert another day?')
+    print("Do you want to insert another day?")
     answer = input()
-    if answer in yes_check_type: 
-        return True 
-    else: 
+    if answer in yes_check_type:
+        return True
+    else:
         return False
+
 
 def upload_data(all_data):
     sheet = google_api_auth()
@@ -66,26 +69,34 @@ def upload_data(all_data):
     to_upload = []
     for d in daily_data:
         if isinstance(all_data[d], datetime.datetime):
-            to_upload.append(all_data[d].strftime('%H:%M'))
+            to_upload.append(all_data[d].strftime("%H:%M"))
         else:
             to_upload.append(all_data[d])
 
     worksheet = sheet.worksheet(daily_data_sheet)
-    worksheet.update(f'{daily_data_start_col}{daily_data_y}:{daily_data_end_col}{daily_data_y}', [to_upload], value_input_option="USER_ENTERED")
+    worksheet.update(
+        f"{daily_data_start_col}{daily_data_y}:{daily_data_end_col}{daily_data_y}",
+        [to_upload],
+        value_input_option="USER_ENTERED",
+    )
 
     # Daily actions
     to_upload = []
 
     for d in day_actions_order:
         if isinstance(all_data[d], datetime.datetime):
-            to_upload.append(all_data[d].strftime('%H:%M'))
+            to_upload.append(all_data[d].strftime("%H:%M"))
         elif isinstance(all_data[d], list):
-            to_upload.append(all_data[d][0].strftime('%H:%M'))
+            to_upload.append(all_data[d][0].strftime("%H:%M"))
         else:
             to_upload.append(all_data[d])
 
     worksheet = sheet.worksheet(daily_actions_sheet)
-    worksheet.update(f'{daily_actions_start_end_sheet[0]}{daily_data_y}:{daily_actions_start_end_sheet[1]}{daily_data_y}', [to_upload], value_input_option="USER_ENTERED")
+    worksheet.update(
+        f"{daily_actions_start_end_sheet[0]}{daily_data_y}:{daily_actions_start_end_sheet[1]}{daily_data_y}",
+        [to_upload],
+        value_input_option="USER_ENTERED",
+    )
 
     # Weekly Data
     if any([x in all_data for x in weekly_data]):
@@ -94,7 +105,11 @@ def upload_data(all_data):
             to_upload.append(all_data[d])
 
         worksheet = sheet.worksheet(weekly_actions_sheet)
-        worksheet.update(f'{weekly_data_start_col}{str(weekly_activities_x)}:{weekly_data_end_col}{str(weekly_activities_x)}', [to_upload], value_input_option="USER_ENTERED")
+        worksheet.update(
+            f"{weekly_data_start_col}{str(weekly_activities_x)}:{weekly_data_end_col}{str(weekly_activities_x)}",
+            [to_upload],
+            value_input_option="USER_ENTERED",
+        )
 
     # Daily sub activities
     worksheet = sheet.worksheet(daily_sub_activities_sheet)
@@ -108,71 +123,99 @@ def upload_data(all_data):
                 if m >= 60:
                     h += 1
                     m -= 60
-                m = '00' if m==0 else m
-                to_upload = f'{h}:{m}'
-                worksheet.update(f'{base_10_to_alphabet(day_of_the_year - 1 + year_offset)}{daily_actions_data[d][2][to_upload_name]}', to_upload, value_input_option="USER_ENTERED")
+                m = "00" if m == 0 else m
+                to_upload = f"{h}:{m}"
+                worksheet.update(
+                    f"{base_10_to_alphabet(day_of_the_year - 1 + year_offset)}{daily_actions_data[d][2][to_upload_name]}",
+                    to_upload,
+                    value_input_option="USER_ENTERED",
+                )
 
 
 def data_review(data):
-    number_to_ref = {n:d for n,d in enumerate(data)}
+    number_to_ref = {n: d for n, d in enumerate(data)}
     final_version = True
     while final_version:
         print_all_data(data)
         check_total_time(data)
-        print(f'Do you want to change something? [Confirm Data {confirm_data}]')
+        print(f"Do you want to change something? [Confirm Data {confirm_data}]")
         answer = input()
         if 0 < int(answer) < len(list(data)):
             modify_data(data, number_to_ref[int(answer)])
         elif int(answer) == confirm_data:
             final_version = False
 
+
 def check_total_time(data):
-    inserted = datetime.datetime.combine(datetime.date(1, 1, 1), datetime.time(data['Awake'].hour, data['Awake'].minute))
+    inserted = datetime.datetime.combine(
+        datetime.date(1, 1, 1), datetime.time(data["Awake"].hour, data["Awake"].minute)
+    )
     for d in data:
         if d in data_for_check:
             if not isinstance(data[d], datetime.datetime):
                 h = data[d][0].hour
                 m = data[d][0].minute
-                inserted = inserted + datetime.timedelta(hours=h) + datetime.timedelta(minutes=m)
+                inserted = (
+                    inserted
+                    + datetime.timedelta(hours=h)
+                    + datetime.timedelta(minutes=m)
+                )
             else:
                 h = data[d].hour
                 m = data[d].minute
-                inserted = inserted + datetime.timedelta(hours=h) + datetime.timedelta(minutes=m)
+                inserted = (
+                    inserted
+                    + datetime.timedelta(hours=h)
+                    + datetime.timedelta(minutes=m)
+                )
 
-    print(f'Computed h {inserted.hour}:{inserted.minute}')
+    print(f"Computed h {inserted.hour}:{inserted.minute}")
+
 
 def modify_data(data, ref):
     next = True
     if isinstance(data[ref], datetime.datetime) or not isinstance(data[ref], list):
         while next:
-            print('New Data: ')
+            print("New Data: ")
             new_d = input()
-            new_d, next = verify_data(daily_actions_data[ref][1] if ref in daily_actions_data else daily_data[ref][1], new_d)
+            new_d, next = verify_data(
+                daily_actions_data[ref][1]
+                if ref in daily_actions_data
+                else daily_data[ref][1],
+                new_d,
+            )
 
         data[ref] = new_d
 
     else:
         while next:
-            print('New Data: ')
+            print("New Data: ")
             new_d = input()
-            new_d, next = verify_data(daily_actions_data[ref][1] if ref in daily_actions_data else daily_data[ref][1], new_d)
+            new_d, next = verify_data(
+                daily_actions_data[ref][1]
+                if ref in daily_actions_data
+                else daily_data[ref][1],
+                new_d,
+            )
 
         readed_sub_data = read_sub_data(ref, new_d)
         data[ref] = [new_d, readed_sub_data]
 
+
 def print_all_data(data):
-    print('These are the data inserted:')
+    print("These are the data inserted:")
     for n, d in enumerate(data):
         if isinstance(data[d], datetime.datetime):
-            print(f'({n}) {d} - {data[d].hour}:{data[d].minute}')
+            print(f"({n}) {d} - {data[d].hour}:{data[d].minute}")
 
         elif isinstance(data[d], list):
-            print(f'({n}) {d} - {data[d][0].hour}:{data[d][0].minute}')
+            print(f"({n}) {d} - {data[d][0].hour}:{data[d][0].minute}")
             for sub in data[d][1]:
-                print(f'   - {sub}: {data[d][1][sub].hour}:{data[d][1][sub].minute}')
+                print(f"   - {sub}: {data[d][1][sub].hour}:{data[d][1][sub].minute}")
 
         else:
-            print(f'({n}) {d} - {data[d]}')
+            print(f"({n}) {d} - {data[d]}")
+
 
 def read_weekly_data():
     result = {}
@@ -181,7 +224,7 @@ def read_weekly_data():
         for data in weekly_data:
             next = True
             while next:
-                print(f'{data}: ')
+                print(f"{data}: ")
                 readed_data = input()
                 readed_data, next = verify_data(weekly_data[data][1], readed_data)
 
@@ -191,13 +234,14 @@ def read_weekly_data():
 
     return result
 
+
 def read_daily_data():
     print(title1)
     result = {}
     for data in daily_data:
         next = True
         while next:
-            print(f'{data}: ')
+            print(f"{data}: ")
             readed_data = input()
             readed_data, next = verify_data(daily_data[data][1], readed_data)
 
@@ -207,45 +251,50 @@ def read_daily_data():
 
     return result
 
+
 def read_daily_actions():
     print(title2)
     result = {}
     for data in daily_actions_data:
-            next = True
-            while next:
-                print(f'{data}: ')
-                readed_data = input()
-                readed_data, next = verify_data(daily_actions_data[data][1], readed_data)
+        next = True
+        while next:
+            print(f"{data}: ")
+            readed_data = input()
+            readed_data, next = verify_data(daily_actions_data[data][1], readed_data)
 
-            result[data] = readed_data
+        result[data] = readed_data
 
-            if len(daily_actions_data[data]) == 3 and (readed_data.hour != 0 or readed_data.minute != 0):
-                readed_sub_data = read_sub_data(data, readed_data)
-                result[data] = [readed_data, readed_sub_data]
+        if len(daily_actions_data[data]) == 3 and (
+            readed_data.hour != 0 or readed_data.minute != 0
+        ):
+            readed_sub_data = read_sub_data(data, readed_data)
+            result[data] = [readed_data, readed_sub_data]
 
     return result
+
 
 def read_sub_data(data, time):
     next = True
     result = {}
     while next:
         option = choose_option(data, result)
-        print('Time: ')
+        print("Time: ")
         sub_data = input()
         sub_data, maybe_next = verify_data(daily_actions_data[data][1], sub_data)
-        maybe_next = maybe_next or sub_data == '0'
+        maybe_next = maybe_next or sub_data == "0"
         if not maybe_next:
             ver_sub_hours = verify_sub_hours(time, list(result.values()), sub_data)
             if ver_sub_hours == 0:
                 result[option] = sub_data
                 next = False
             elif ver_sub_hours == 1:
-                print('Too much, are you sure about the data inserted?')
+                print("Too much, are you sure about the data inserted?")
             else:
                 result[option] = sub_data
-                print('Time Missing, other actions?')
+                print("Time Missing, other actions?")
 
     return result
+
 
 def choose_option(data, choosen):
     print(ask_sub_data)
@@ -253,7 +302,7 @@ def choose_option(data, choosen):
     ok = True
     while ok:
         for n, option in enumerate(daily_actions_data[data][2]):
-            print(f'- {option} ({n})')
+            print(f"- {option} ({n})")
             tmp_sub.append(option)
 
         sub_cat = int(input())
@@ -265,12 +314,20 @@ def choose_option(data, choosen):
 
 
 def verify_sub_hours(total, hours, new_hour):
-    tot_datetime = datetime.datetime.combine(datetime.date(1, 1, 1), datetime.time(total.hour, total.minute))
+    tot_datetime = datetime.datetime.combine(
+        datetime.date(1, 1, 1), datetime.time(total.hour, total.minute)
+    )
     tot_hours = datetime.datetime.combine(datetime.date(1, 1, 1), datetime.time(0, 0))
     for h in hours:
-        tot_hours += datetime.timedelta(hours=int(h.hour)) + datetime.timedelta(minutes=int(h.minute))
+        tot_hours += datetime.timedelta(hours=int(h.hour)) + datetime.timedelta(
+            minutes=int(h.minute)
+        )
 
-    tot_hours = tot_hours + datetime.timedelta(hours=int(new_hour.hour)) + datetime.timedelta(minutes=int(new_hour.minute))
+    tot_hours = (
+        tot_hours
+        + datetime.timedelta(hours=int(new_hour.hour))
+        + datetime.timedelta(minutes=int(new_hour.minute))
+    )
 
     if tot_datetime == tot_hours:
         return 0
@@ -279,61 +336,64 @@ def verify_sub_hours(total, hours, new_hour):
     else:
         return -1
 
+
 def verify_data(type, data):
     result = False
     data_new = data
-    if type == 'hour':
+    if type == "hour":
         tmp = data.split(hour_format)
-        if (len(tmp) < 2):
+        if len(tmp) < 2:
             result = True
         if len(tmp) == 2:
             if int(tmp[1]) > 59:
                 result = True
 
         if not result:
-            data_new = datetime.datetime.strptime(data, '%H %M')
+            data_new = datetime.datetime.strptime(data, "%H %M")
 
-    if type == 'time':
+    if type == "time":
         tmp = data.split(hour_format)
         if len(tmp) < 2:
-            data = data + ' 0'
+            data = data + " 0"
         if len(tmp) == 2:
             if int(tmp[1]) > 59:
                 result = True
 
         if not result:
-            data_new = datetime.datetime.strptime(data, '%H %M')
+            data_new = datetime.datetime.strptime(data, "%H %M")
 
-    elif type == 'int':
+    elif type == "int":
         try:
             int(data)
         except ValueError:
             result = True
 
-    elif type == 'float':
+    elif type == "float":
         try:
             float(data)
         except ValueError:
             result = True
 
-    elif type == 'check':
+    elif type == "check":
         if data.lower() not in check_type:
             result = True
         elif data.lower() in yes_check_type:
-            data_new = 'X'
+            data_new = "X"
         else:
-            data_new = ' '
+            data_new = " "
 
-    elif type == 'str':
-      pass
+    elif type == "str":
+        pass
 
     if result == True:
-        print('Data not correct, reinsert pls')
+        print("Data not correct, reinsert pls")
 
     return data_new, result
 
-A_UPPERCASE = ord('A')
+
+A_UPPERCASE = ord("A")
 ALPHABET_SIZE = 26
+
 
 def _decompose(number):
     """Generate digits from `number` in base alphabet, least significants
@@ -351,11 +411,8 @@ def _decompose(number):
 def base_10_to_alphabet(number):
     """Convert a decimal number to its base alphabet representation"""
 
-    return ''.join(
-            chr(A_UPPERCASE + part)
-            for part in _decompose(number)
-    )[::-1]
+    return "".join(chr(A_UPPERCASE + part) for part in _decompose(number))[::-1]
+
 
 if __name__ == "__main__":
     main()
-
