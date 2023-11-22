@@ -22,6 +22,7 @@ def select_random_quote(da_file):
     result = ""
     while (
         result.strip() == ""
+        or result.strip() == ">"
         or result == None
         or "-" not in result
         or "[M" in result
