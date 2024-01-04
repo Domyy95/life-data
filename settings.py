@@ -2,27 +2,26 @@ import gspread
 import pprint
 from oauth2client.service_account import ServiceAccountCredentials
 
-data_file_name = "2023_action_activity"
+data_file_name = "2024_action_activity"
 year_offset = 1
 # Daily - Data sheet
 daily_data_sheet = "Daily - Data"
 daily_data_start_col = "B"
-daily_data_end_col = "N"
+daily_data_end_col = "M"
 # name: coloumn on sheet, type of data, when to ask (default daily)
 daily_data = {
     "Sleep start": ["B", "hour"],
     "Awake": ["C", "hour"],
-    "Morning workout": ["D", "time"],
-    "Read before sleep": ["E", "time"],
-    "Brush teeth": ["F", "int"],
-    "Out Home": ["G", "check"],
-    "Eat meet": ["H", "check"],
-    "Happiness": ["I", "int"],
-    "Vote": ["J", "int"],
-    "Notes": ["K", "str"],
-    "Something new?": ["L", "str"],
-    "First food": ["M", "time"],
-    "Last food": ["N", "time"],
+    "Read before sleep": ["D", "time"],
+    "Brush teeth": ["E", "int"],
+    "Out Home": ["F", "check"],
+    "Eat meet": ["G", "check"],
+    "Happiness": ["H", "int"],
+    "Vote": ["I", "int"],
+    "Notes": ["J", "str"],
+    "Something new?": ["K", "str"],
+    "First food": ["L", "time"],
+    "Last food": ["M", "time"],
 }
 
 # Weekly - Actions sheet
@@ -54,30 +53,27 @@ daily_actions_data = {
         "C",
         "time",
         {
-            "TuoTempo": 49,
-            "Personal Jobs": 50,
-            "Works with IM": 51,
-            "JobToMe": 52,
+            "JobToMe": 49,
+            "Freelance": 50,
             "Other": 54,
         },
     ],
     "Learning": [
         "E",
         "time",
-        {"reading": 15, "Webinar / Courses": 16, "CTF": 17, "Lingue": 18, "Other": 20},
+        {"reading": 15, "Webinar / Courses": 16, "CTF": 17, "Coding": 18, "Other": 20},
     ],
     "Sport": [
         "F",
         "time",
-        {"Run": 3, "Hiking": 4, "Yoga": 5, "Climbing": 6, "Football": 7, "Other": 9},
+        {"Run": 3, "Hiking": 4, "Yoga": 5, "Climbing": 6, "Workout": 8, "Other": 9},
     ],
     "Personal projects": [
         "F",
         "time",
         {
             "3d Printing": 25,
-            "Health remote working ": 26,
-            "Home projects": 27,
+            "Home projects": 26,
             "Other": 30,
         },
     ],
@@ -89,9 +85,9 @@ daily_actions_data = {
             "YouTube": 36,
             "Friends time": 37,
             "Board games": 38,
-            "Trips": 39,
-            "Chess": 40,
-            "Movies": 41,
+            "Movies": 39,
+            "Trips": 40,
+            "Chess": 41,
             "Other": 44,
         },
     ],
@@ -136,7 +132,6 @@ data_for_check = [
     "Talking",
     "Phone",
     "Operations",
-    "Morning workout",
     "My Tasks",
     "Family Tasks",
     "Read before sleep",
