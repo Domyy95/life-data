@@ -89,20 +89,20 @@ def worksheet_update(data, start, end=None, worksheet=None, worksheet_obj=None):
 
         if end is None:
             worksheet.update(
-                range_name=start,
                 values=data,
+                range_name=start,
                 value_input_option="USER_ENTERED",
             )
 
         else:
             worksheet.update(
-                range_name=f"{start}:{end}",
                 values=[data],
+                range_name=f"{start}:{end}",
                 value_input_option="USER_ENTERED",
             )
 
     except Exception as e:
-        print("Error updating worksheet {worksheet}:", e.to_string())
+        print(f"Error updating worksheet {worksheet}: {e}")
 
 
 def upload_data(all_data):
