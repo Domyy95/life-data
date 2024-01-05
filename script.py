@@ -7,12 +7,13 @@ daily_data_y = day_of_the_year
 week_day = choosen_day.isoweekday()
 weekly_activities_x = choosen_day.isocalendar()[1]
 
+sheet = google_api_auth()
+
 
 def main():
-    another_day = True
-    while another_day:
+    while True:
         print(margin)
-        read_day(choosen_day)
+        choose_day()
         print(margin2 + f" {choosen_day.date()} " + margin2)
         daily_data_r = read_daily_data()
         daily_action_r = read_daily_actions()
@@ -22,10 +23,11 @@ def main():
         upload_data(all_data)
         print(margin)
 
-        another_day = repeat_question()
+        if not repeat_question():
+            break
 
 
-def read_day(day):
+def choose_day():
     global choosen_day
     global week_day
     global daily_data_y
@@ -33,18 +35,16 @@ def read_day(day):
     global weekly_activities_x
     choosen_day = datetime.datetime.today()
 
-    ok_day = True
-    next = True
-    while ok_day:
-        while next:
-            print("How many days ago do you want to go?")
-            answer = int(input())
-            answer, next = verify_data("int", answer)
+    while True:
+        print("How many days ago do you want to go?")
+        answer = int(input())
+        answer, _ = verify_data("int", answer)
 
         tmp_day = choosen_day - datetime.timedelta(days=answer)
         print(f"Choosen day: {tmp_day.date()}. Ok? [y/n]")
         answer = input()
-        ok_day, next = (False, False) if answer in yes_check_type else (True, True)
+        if answer in yes_check_type:
+            break
 
     choosen_day = tmp_day
     day_of_the_year = choosen_day.timetuple().tm_yday
@@ -62,9 +62,50 @@ def repeat_question():
         return False
 
 
-def upload_data(all_data):
-    sheet = google_api_auth()
+def worksheet_update(data, start, end=None, worksheet=None, worksheet_obj=None):
+    """
+    The function updates a worksheet with data starting from a specified cell.
 
+    :param data: The data parameter is a list or a single data containing the data that you want to update in the worksheet
+
+    :param start: The start parameter is used to specify the starting cell where the data should be
+    updated in the worksheet. It can be specified as a string representing the cell address (e.g., "A1")
+    or as a tuple of integers representing the row and column indices (e.g., (1, 1))
+
+    :param end: The end parameter is used to specify the end cell of the range of data that needs to be
+    updated in the worksheet. If the "end" parameter is not provided, the data will be updated starting
+    from the "start" cell and continue until the last cell in the "data" list, or it will update a single cell.
+
+    :param worksheet: The worksheet parameter is used to specify the name of the worksheet where the
+    data will be updated. Only one between the "worksheet" and "worksheet_obj" parameters should be provided.
+
+    :param worksheet_obj: The worksheet_obj parameter is an object that represents the worksheet where
+    the data will be updated. It is used to access and modify the cells in the worksheet
+    """
+    try:
+        worksheet = (
+            sheet.worksheet(worksheet) if worksheet is not None else worksheet_obj
+        )
+
+        if end is None:
+            worksheet.update(
+                range_name=start,
+                values=data,
+                value_input_option="USER_ENTERED",
+            )
+
+        else:
+            worksheet.update(
+                range_name=f"{start}:{end}",
+                values=[data],
+                value_input_option="USER_ENTERED",
+            )
+
+    except Exception as e:
+        print("Error updating worksheet {worksheet}:", e.to_string())
+
+
+def upload_data(all_data):
     # Daily data
     to_upload = []
     for d in daily_data:
@@ -73,11 +114,11 @@ def upload_data(all_data):
         else:
             to_upload.append(all_data[d])
 
-    worksheet = sheet.worksheet(daily_data_sheet)
-    worksheet.update(
-        f"{daily_data_start_col}{daily_data_y}:{daily_data_end_col}{daily_data_y}",
-        [to_upload],
-        value_input_option="USER_ENTERED",
+    worksheet_update(
+        data=to_upload,
+        start=f"{daily_data_start_col}{daily_data_y}",
+        end=f"{daily_data_end_col}{daily_data_y}",
+        worksheet=daily_data_sheet,
     )
 
     # Daily actions
@@ -91,24 +132,22 @@ def upload_data(all_data):
         else:
             to_upload.append(all_data[d])
 
-    worksheet = sheet.worksheet(daily_actions_sheet)
-    worksheet.update(
-        f"{daily_actions_start_end_sheet[0]}{daily_data_y}:{daily_actions_start_end_sheet[1]}{daily_data_y}",
-        [to_upload],
-        value_input_option="USER_ENTERED",
+    worksheet_update(
+        data=to_upload,
+        start=f"{daily_actions_start_end_sheet[0]}{daily_data_y}",
+        end=f"{daily_actions_start_end_sheet[1]}{daily_data_y}",
+        worksheet=daily_actions_sheet,
     )
 
     # Weekly Data
     if any([x in all_data for x in weekly_data]):
-        to_upload = []
-        for d in weekly_data:
-            to_upload.append(all_data[d])
+        to_upload = [all_data[d] for d in weekly_data]
 
-        worksheet = sheet.worksheet(weekly_actions_sheet)
-        worksheet.update(
-            f"{weekly_data_start_col}{str(weekly_activities_x)}:{weekly_data_end_col}{str(weekly_activities_x)}",
-            [to_upload],
-            value_input_option="USER_ENTERED",
+        worksheet_update(
+            data=to_upload,
+            start=f"{weekly_data_start_col}{str(weekly_activities_x)}",
+            end=f"{weekly_data_end_col}{str(weekly_activities_x)}",
+            worksheet=weekly_actions_sheet,
         )
 
     # Daily sub activities
@@ -125,17 +164,17 @@ def upload_data(all_data):
                     m -= 60
                 m = "00" if m == 0 else m
                 to_upload = f"{h}:{m}"
-                worksheet.update(
-                    f"{base_10_to_alphabet(day_of_the_year - 1 + year_offset)}{daily_actions_data[d][2][to_upload_name]}",
-                    to_upload,
-                    value_input_option="USER_ENTERED",
+
+                worksheet_update(
+                    data=to_upload,
+                    start=f"{base_10_to_alphabet(day_of_the_year - 1 + year_offset)}{daily_actions_data[d][2][to_upload_name]}",
+                    worksheet_obj=worksheet,
                 )
 
 
 def data_review(data):
     number_to_ref = {n: d for n, d in enumerate(data)}
-    final_version = True
-    while final_version:
+    while True:
         print_all_data(data)
         check_total_time(data)
         print(f"Do you want to change something? [Confirm Data {confirm_data}]")
@@ -143,7 +182,7 @@ def data_review(data):
         if 0 < int(answer) < len(list(data)):
             modify_data(data, number_to_ref[int(answer)])
         elif int(answer) == confirm_data:
-            final_version = False
+            break
 
 
 def check_total_time(data):
