@@ -2,8 +2,10 @@ import gspread
 import pprint
 from oauth2client.service_account import ServiceAccountCredentials
 
+# To change every year
 data_file_name = "2024_action_activity"
-year_offset = 1
+year_offset = 2
+
 # Daily - Data sheet
 daily_data_sheet = "Daily - Data"
 daily_data_start_col = "B"
@@ -220,3 +222,10 @@ def read_test(sheet):
     python_sheet = sheet.get_all_values()
     pp = pprint.PrettyPrinter()
     pp.pprint(python_sheet)
+
+
+# generate the strings for the formula
+# string = "='Daily - Data'!$D{n}"
+
+# for i in range(3, 372):
+#     print(string.format(n=i))
