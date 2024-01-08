@@ -76,6 +76,7 @@ daily_actions_data = {
         {
             "3d Printing": 25,
             "Home projects": 26,
+            "Website - Blog": 27,
             "Other": 30,
         },
     ],
