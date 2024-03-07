@@ -63,7 +63,14 @@ daily_actions_data = {
     "Learning": [
         "E",
         "time",
-        {"reading": 15, "Webinar / Courses": 16, "CTF": 17, "Coding": 18, "Other": 20},
+        {
+            "reading": 15,
+            "Webinar / Courses": 16,
+            "CTF": 17,
+            "Coding": 18,
+            "English": 19,
+            "Other": 20,
+        },
     ],
     "Sport": [
         "F",
@@ -77,6 +84,7 @@ daily_actions_data = {
             "3d Printing": 25,
             "Home projects": 26,
             "Website - Blog": 27,
+            "Becciolini Network": 28,
             "Other": 30,
         },
     ],
