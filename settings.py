@@ -85,6 +85,7 @@ daily_actions_data = {
             "Home projects": 26,
             "Website - Blog": 27,
             "Becciolini Network": 28,
+            "House": 29,
             "Other": 30,
         },
     ],
