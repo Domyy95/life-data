@@ -75,7 +75,15 @@ daily_actions_data = {
     "Sport": [
         "F",
         "time",
-        {"Run": 3, "Hiking": 4, "Yoga": 5, "Climbing": 6, "Workout": 8, "Other": 9},
+        {
+            "Run": 3,
+            "Hiking": 4,
+            "Yoga": 5,
+            "Climbing": 6,
+            "Bike": 7,
+            "Workout": 8,
+            "Other": 9,
+        },
     ],
     "Personal projects": [
         "F",
@@ -84,7 +92,6 @@ daily_actions_data = {
             "3d Printing": 25,
             "Home projects": 26,
             "Website - Blog": 27,
-            "Becciolini Network": 28,
             "House": 29,
             "Other": 30,
         },
