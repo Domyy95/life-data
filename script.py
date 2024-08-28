@@ -229,7 +229,7 @@ def modify_data(data, ref):
     if isinstance(data[ref], datetime) or not isinstance(data[ref], list):
         while next:
             print("New Data: ")
-            new_d = input()
+            new_d = input().strip()
             new_d, next = verify_data(
                 daily_actions_data[ref][1]
                 if ref in daily_actions_data
@@ -242,7 +242,7 @@ def modify_data(data, ref):
     else:
         while next:
             print("New Data: ")
-            new_d = input()
+            new_d = input().strip()
             new_d, next = verify_data(
                 daily_actions_data[ref][1]
                 if ref in daily_actions_data
@@ -278,7 +278,7 @@ def read_weekly_data():
             next = True
             while next:
                 print(f"{data}: ")
-                readed_data = input()
+                readed_data = input().strip()
                 readed_data, next = verify_data(weekly_data[data][1], readed_data)
 
             result[data] = readed_data
@@ -295,7 +295,7 @@ def read_daily_data():
         next = True
         while next:
             print(f"{data}: ")
-            readed_data = input()
+            readed_data = input().strip()
             readed_data, next = verify_data(daily_data[data][1], readed_data)
 
         result[data] = readed_data
@@ -312,7 +312,7 @@ def read_daily_actions():
         next = True
         while next:
             print(f"{data}: ")
-            readed_data = input()
+            readed_data = input().strip()
             readed_data, next = verify_data(daily_actions_data[data][1], readed_data)
 
         result[data] = readed_data
@@ -332,7 +332,7 @@ def read_sub_data(data, time):
     while next:
         option = choose_option(data, result)
         print("Time: ")
-        sub_data = input()
+        sub_data = input().strip()
         sub_data, maybe_next = verify_data(daily_actions_data[data][1], sub_data)
         maybe_next = maybe_next or sub_data == "0"
         if not maybe_next:
