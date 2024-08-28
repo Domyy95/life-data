@@ -1,7 +1,8 @@
 from settings import *
-import datetime
+from datetime import datetime, timedelta, date, time
 
-choosen_day = datetime.datetime.today()
+yesterday = datetime.today() - timedelta(days=1)
+choosen_day = datetime.today()
 day_of_the_year = choosen_day.timetuple().tm_yday
 daily_data_y = day_of_the_year
 week_day = choosen_day.isoweekday()
@@ -11,9 +12,9 @@ sheet = google_api_auth()
 
 
 def main():
+    print(margin)
+    choose_day()
     while True:
-        print(margin)
-        choose_day()
         print(margin2 + f" {choosen_day.date()} " + margin2)
         daily_data_r = read_daily_data()
         daily_action_r = read_daily_actions()
@@ -23,9 +24,11 @@ def main():
         upload_data(all_data)
         print(margin)
 
-        if not repeat_question():
+        next_day = compute_next_day()
+        if not next_day:
+            print("All the days inserted! Bye!")
             break
-
+            
 
 def choose_day():
     global choosen_day
@@ -33,18 +36,19 @@ def choose_day():
     global daily_data_y
     global day_of_the_year
     global weekly_activities_x
-    choosen_day = datetime.datetime.today()
+    choosen_day = datetime.today()
 
     while True:
         print("How many days ago do you want to go?")
         answer = int(input())
-        answer, _ = verify_data("int", answer)
+        answer, wrong = verify_data("int", answer)
 
-        tmp_day = choosen_day - datetime.timedelta(days=answer)
-        print(f"Choosen day: {tmp_day.date()}. Ok? [y/n]")
-        answer = input()
-        if answer in yes_check_type:
-            break
+        if not wrong:
+            tmp_day = choosen_day - timedelta(days=answer)
+            print(f"Choosen day: {tmp_day.date()}. Ok? [y/n]")
+            answer = input()
+            if answer in yes_check_type:
+                break
 
     choosen_day = tmp_day
     day_of_the_year = choosen_day.timetuple().tm_yday
@@ -53,13 +57,22 @@ def choose_day():
     weekly_activities_x = choosen_day.isocalendar()[1] + 1
 
 
-def repeat_question():
-    print("Do you want to insert another day?")
-    answer = input()
-    if answer in yes_check_type:
-        return True
-    else:
+def compute_next_day():
+    global choosen_day
+    global week_day
+    global daily_data_y
+    global day_of_the_year
+    global weekly_activities_x
+
+    if choosen_day.date() == yesterday.date():
         return False
+    
+    choosen_day = choosen_day + timedelta(days=1)
+    day_of_the_year = choosen_day.timetuple().tm_yday
+    daily_data_y = day_of_the_year + year_offset
+    week_day = choosen_day.isoweekday()
+    weekly_activities_x = choosen_day.isocalendar()[1] + 1
+    return True
 
 
 def worksheet_update(data, start, end=None, worksheet=None, worksheet_obj=None):
@@ -109,7 +122,7 @@ def upload_data(all_data):
     # Daily data
     to_upload = []
     for d in daily_data:
-        if isinstance(all_data[d], datetime.datetime):
+        if isinstance(all_data[d], datetime):
             to_upload.append(all_data[d].strftime("%H:%M"))
         else:
             to_upload.append(all_data[d])
@@ -125,7 +138,7 @@ def upload_data(all_data):
     to_upload = []
 
     for d in day_actions_order:
-        if isinstance(all_data[d], datetime.datetime):
+        if isinstance(all_data[d], datetime):
             to_upload.append(all_data[d].strftime("%H:%M"))
         elif isinstance(all_data[d], list):
             to_upload.append(all_data[d][0].strftime("%H:%M"))
@@ -186,26 +199,26 @@ def data_review(data):
 
 
 def check_total_time(data):
-    inserted = datetime.datetime.combine(
-        datetime.date(1, 1, 1), datetime.time(data["Awake"].hour, data["Awake"].minute)
+    inserted = datetime.combine(
+        date(1, 1, 1), time(data["Awake"].hour, data["Awake"].minute)
     )
     for d in data:
         if d in data_for_check:
-            if not isinstance(data[d], datetime.datetime):
+            if not isinstance(data[d], datetime):
                 h = data[d][0].hour
                 m = data[d][0].minute
                 inserted = (
                     inserted
-                    + datetime.timedelta(hours=h)
-                    + datetime.timedelta(minutes=m)
+                    + timedelta(hours=h)
+                    + timedelta(minutes=m)
                 )
             else:
                 h = data[d].hour
                 m = data[d].minute
                 inserted = (
                     inserted
-                    + datetime.timedelta(hours=h)
-                    + datetime.timedelta(minutes=m)
+                    + timedelta(hours=h)
+                    + timedelta(minutes=m)
                 )
 
     print(f"Computed h {inserted.hour}:{inserted.minute}")
@@ -213,7 +226,7 @@ def check_total_time(data):
 
 def modify_data(data, ref):
     next = True
-    if isinstance(data[ref], datetime.datetime) or not isinstance(data[ref], list):
+    if isinstance(data[ref], datetime) or not isinstance(data[ref], list):
         while next:
             print("New Data: ")
             new_d = input()
@@ -243,8 +256,9 @@ def modify_data(data, ref):
 
 def print_all_data(data):
     print("These are the data inserted:")
+    print(f"Day: {choosen_day.date()}")
     for n, d in enumerate(data):
-        if isinstance(data[d], datetime.datetime):
+        if isinstance(data[d], datetime):
             print(f"({n}) {d} - {data[d].hour}:{data[d].minute}")
 
         elif isinstance(data[d], list):
@@ -353,19 +367,19 @@ def choose_option(data, choosen):
 
 
 def verify_sub_hours(total, hours, new_hour):
-    tot_datetime = datetime.datetime.combine(
-        datetime.date(1, 1, 1), datetime.time(total.hour, total.minute)
+    tot_datetime = datetime.combine(
+        date(1, 1, 1), time(total.hour, total.minute)
     )
-    tot_hours = datetime.datetime.combine(datetime.date(1, 1, 1), datetime.time(0, 0))
+    tot_hours = datetime.combine(date(1, 1, 1), time(0, 0))
     for h in hours:
-        tot_hours += datetime.timedelta(hours=int(h.hour)) + datetime.timedelta(
+        tot_hours += timedelta(hours=int(h.hour)) + timedelta(
             minutes=int(h.minute)
         )
 
     tot_hours = (
         tot_hours
-        + datetime.timedelta(hours=int(new_hour.hour))
-        + datetime.timedelta(minutes=int(new_hour.minute))
+        + timedelta(hours=int(new_hour.hour))
+        + timedelta(minutes=int(new_hour.minute))
     )
 
     if tot_datetime == tot_hours:
@@ -388,7 +402,7 @@ def verify_data(type, data):
                 result = True
 
         if not result:
-            data_new = datetime.datetime.strptime(data, "%H %M")
+            data_new = datetime.strptime(data, "%H %M")
 
     if type == "time":
         tmp = data.split(hour_format)
@@ -399,11 +413,13 @@ def verify_data(type, data):
                 result = True
 
         if not result:
-            data_new = datetime.datetime.strptime(data, "%H %M")
+            data_new = datetime.strptime(data, "%H %M")
 
     elif type == "int":
         try:
             int(data)
+            if int(data) < 0:
+                result = True
         except ValueError:
             result = True
 
