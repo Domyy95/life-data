@@ -133,6 +133,7 @@ def upload_data(all_data):
         end=f"{daily_data_end_col}{daily_data_y}",
         worksheet=daily_data_sheet,
     )
+    print("Daily data uploaded")
 
     # Daily actions
     to_upload = []
@@ -151,6 +152,7 @@ def upload_data(all_data):
         end=f"{daily_actions_start_end_sheet[1]}{daily_data_y}",
         worksheet=daily_actions_sheet,
     )
+    print("Daily actions uploaded")
 
     # Weekly Data
     if any([x in all_data for x in weekly_data]):
@@ -162,6 +164,7 @@ def upload_data(all_data):
             end=f"{weekly_data_end_col}{str(weekly_activities_x)}",
             worksheet=weekly_actions_sheet,
         )
+        print("Weekly data uploaded")
 
     # Daily sub activities
     worksheet = sheet.worksheet(daily_sub_activities_sheet)
@@ -183,6 +186,8 @@ def upload_data(all_data):
                     start=f"{base_10_to_alphabet(day_of_the_year - 1 + year_offset)}{daily_actions_data[d][2][to_upload_name]}",
                     worksheet_obj=worksheet,
                 )
+                
+    print("Daily sub activities uploaded")
 
 
 def data_review(data):
