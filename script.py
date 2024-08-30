@@ -1,5 +1,7 @@
 from settings import *
 from datetime import datetime, timedelta, date, time
+from random_tag import random_tag_note
+from random_quotes import random_quote_and_book_notes
 
 yesterday = datetime.today() - timedelta(days=1)
 choosen_day = datetime.today()
@@ -12,6 +14,7 @@ sheet = google_api_auth()
 
 
 def main():
+    random_quote_and_book_notes()
     print(margin)
     choose_day()
     while True:
@@ -27,6 +30,8 @@ def main():
         next_day = compute_next_day()
         if not next_day:
             print("All the days inserted! Bye!")
+            print(margin)
+            random_tag_note()
             break
             
 
