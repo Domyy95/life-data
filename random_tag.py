@@ -12,6 +12,7 @@ tags = {
     0: "#ideas",
     1: "#tasks",
     2: "#knowledge",
+    3: "#cool-links",
 }
 
 def extract_tag_notes(filename: str, target_tag: str) -> list[str]:
