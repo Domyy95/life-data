@@ -42,7 +42,7 @@ def select_random_quote(da_file):
     return result
 
 
-def main():
+def random_quote_and_book_notes():
     extracted_quote = select_random_quote(obsidian_quotes_file)
     print(f"Quote of the day: {extracted_quote}\n")
 
@@ -50,10 +50,6 @@ def main():
     file_path = os.path.join(obsidian_book_directory, extracted_file)
     extracted_row = select_random_row(file_path)
 
-    print(f"Da {extracted_file[:-3]}:")
+    print(f"From {extracted_file[:-3]}:")
     print(extracted_row)
     print(margin)
-
-
-if __name__ == "__main__":
-    main()
