@@ -1,4 +1,4 @@
-from settings import *
+import settings as st
 from datetime import datetime, timedelta, date, time
 from random_tag import random_tag_note
 from random_quotes import random_quote_and_book_notes
@@ -10,30 +10,30 @@ daily_data_y = day_of_the_year
 week_day = choosen_day.isoweekday()
 weekly_activities_x = choosen_day.isocalendar()[1]
 
-sheet = google_api_auth()
+sheet = st.google_api_auth()
 
 
 def main():
     random_quote_and_book_notes()
-    print(margin)
+    print(st.margin)
     choose_day()
     while True:
-        print(margin2 + f" {choosen_day.date()} " + margin2)
+        print(st.margin2 + f" {choosen_day.date()} " + st.margin2)
         daily_data_r = read_daily_data()
         daily_action_r = read_daily_actions()
         weekly_data = read_weekly_data()
         all_data = {**daily_data_r, **daily_action_r, **weekly_data}
         data_review(all_data)
         upload_data(all_data)
-        print(margin)
+        print(st.margin)
 
         next_day = compute_next_day()
         if not next_day:
             print("All the days inserted! Bye!")
-            print(margin)
+            print(st.margin)
             random_tag_note()
             break
-            
+
 
 def choose_day():
     global choosen_day
@@ -52,12 +52,12 @@ def choose_day():
             tmp_day = choosen_day - timedelta(days=answer)
             print(f"Choosen day: {tmp_day.date()}. Ok? [y/n]")
             answer = input()
-            if answer in yes_check_type:
+            if answer in st.yes_check_type:
                 break
 
     choosen_day = tmp_day
     day_of_the_year = choosen_day.timetuple().tm_yday
-    daily_data_y = day_of_the_year + year_offset
+    daily_data_y = day_of_the_year + st.year_offset
     week_day = choosen_day.isoweekday()
     weekly_activities_x = choosen_day.isocalendar()[1] + 1
 
@@ -71,16 +71,16 @@ def compute_next_day():
 
     if choosen_day.date() == yesterday.date():
         return False
-    
+
     choosen_day = choosen_day + timedelta(days=1)
     day_of_the_year = choosen_day.timetuple().tm_yday
-    daily_data_y = day_of_the_year + year_offset
+    daily_data_y = day_of_the_year + st.year_offset
     week_day = choosen_day.isoweekday()
     weekly_activities_x = choosen_day.isocalendar()[1] + 1
     return True
 
 
-def worksheet_update(data, start, end=None, worksheet=None, worksheet_obj=None):
+def worksheet_update(data: list, start: str, end=None, worksheet=None, worksheet_obj=None):
     """
     The function updates a worksheet with data starting from a specified cell.
 
@@ -101,9 +101,7 @@ def worksheet_update(data, start, end=None, worksheet=None, worksheet_obj=None):
     the data will be updated. It is used to access and modify the cells in the worksheet
     """
     try:
-        worksheet = (
-            sheet.worksheet(worksheet) if worksheet is not None else worksheet_obj
-        )
+        worksheet = sheet.worksheet(worksheet) if worksheet is not None else worksheet_obj
 
         if end is None:
             worksheet.update(
@@ -126,7 +124,7 @@ def worksheet_update(data, start, end=None, worksheet=None, worksheet_obj=None):
 def upload_data(all_data):
     # Daily data
     to_upload = []
-    for d in daily_data:
+    for d in st.daily_data:
         if isinstance(all_data[d], datetime):
             to_upload.append(all_data[d].strftime("%H:%M"))
         else:
@@ -134,16 +132,16 @@ def upload_data(all_data):
 
     worksheet_update(
         data=to_upload,
-        start=f"{daily_data_start_col}{daily_data_y}",
-        end=f"{daily_data_end_col}{daily_data_y}",
-        worksheet=daily_data_sheet,
+        start=f"{st.daily_data_start_col}{daily_data_y}",
+        end=f"{st.daily_data_end_col}{daily_data_y}",
+        worksheet=st.daily_data_sheet,
     )
     print("Daily data uploaded")
 
     # Daily actions
     to_upload = []
 
-    for d in day_actions_order:
+    for d in st.day_actions_order:
         if isinstance(all_data[d], datetime):
             to_upload.append(all_data[d].strftime("%H:%M"))
         elif isinstance(all_data[d], list):
@@ -153,27 +151,27 @@ def upload_data(all_data):
 
     worksheet_update(
         data=to_upload,
-        start=f"{daily_actions_start_end_sheet[0]}{daily_data_y}",
-        end=f"{daily_actions_start_end_sheet[1]}{daily_data_y}",
-        worksheet=daily_actions_sheet,
+        start=f"{st.daily_actions_start_end_sheet[0]}{daily_data_y}",
+        end=f"{st.daily_actions_start_end_sheet[1]}{daily_data_y}",
+        worksheet=st.daily_actions_sheet,
     )
     print("Daily actions uploaded")
 
     # Weekly Data
-    if any([x in all_data for x in weekly_data]):
-        to_upload = [all_data[d] for d in weekly_data]
+    if any([x in all_data for x in st.weekly_data]):
+        to_upload = [all_data[d] for d in st.weekly_data]
 
         worksheet_update(
             data=to_upload,
-            start=f"{weekly_data_start_col}{str(weekly_activities_x)}",
-            end=f"{weekly_data_end_col}{str(weekly_activities_x)}",
-            worksheet=weekly_actions_sheet,
+            start=f"{st.weekly_data_start_col}{str(weekly_activities_x)}",
+            end=f"{st.weekly_data_end_col}{str(weekly_activities_x)}",
+            worksheet=st.weekly_actions_sheet,
         )
         print("Weekly data uploaded")
 
     # Daily sub activities
-    worksheet = sheet.worksheet(daily_sub_activities_sheet)
-    for d in activities_with_sub:
+    worksheet = sheet.worksheet(st.daily_sub_activities_sheet)
+    for d in st.activities_with_sub:
         if isinstance(all_data[d], list):
             to_upload_rows = all_data[d][1]
             for to_upload_name in to_upload_rows:
@@ -188,10 +186,10 @@ def upload_data(all_data):
 
                 worksheet_update(
                     data=to_upload,
-                    start=f"{base_10_to_alphabet(day_of_the_year - 1 + year_offset)}{daily_actions_data[d][2][to_upload_name]}",
+                    start=f"{base_10_to_alphabet(day_of_the_year - 1 + st.year_offset)}{st.daily_actions_data[d][2][to_upload_name]}",
                     worksheet_obj=worksheet,
                 )
-                
+
     print("Daily sub activities uploaded")
 
 
@@ -200,36 +198,26 @@ def data_review(data):
     while True:
         print_all_data(data)
         check_total_time(data)
-        print(f"Do you want to change something? [Confirm Data {confirm_data}]")
+        print(f"Do you want to change something? [Confirm Data {st.confirm_data}]")
         answer = input()
         if 0 < int(answer) < len(list(data)):
             modify_data(data, number_to_ref[int(answer)])
-        elif int(answer) == confirm_data:
+        elif int(answer) == st.confirm_data:
             break
 
 
 def check_total_time(data):
-    inserted = datetime.combine(
-        date(1, 1, 1), time(data["Awake"].hour, data["Awake"].minute)
-    )
+    inserted = datetime.combine(date(1, 1, 1), time(data["Awake"].hour, data["Awake"].minute))
     for d in data:
-        if d in data_for_check:
+        if d in st.data_for_check:
             if not isinstance(data[d], datetime):
                 h = data[d][0].hour
                 m = data[d][0].minute
-                inserted = (
-                    inserted
-                    + timedelta(hours=h)
-                    + timedelta(minutes=m)
-                )
+                inserted = inserted + timedelta(hours=h) + timedelta(minutes=m)
             else:
                 h = data[d].hour
                 m = data[d].minute
-                inserted = (
-                    inserted
-                    + timedelta(hours=h)
-                    + timedelta(minutes=m)
-                )
+                inserted = inserted + timedelta(hours=h) + timedelta(minutes=m)
 
     print(f"Computed h {inserted.hour}:{inserted.minute}")
 
@@ -241,9 +229,9 @@ def modify_data(data, ref):
             print("New Data: ")
             new_d = input().strip()
             new_d, next = verify_data(
-                daily_actions_data[ref][1]
-                if ref in daily_actions_data
-                else daily_data[ref][1],
+                st.daily_actions_data[ref][1]
+                if ref in st.daily_actions_data
+                else st.daily_data[ref][1],
                 new_d,
             )
 
@@ -254,9 +242,9 @@ def modify_data(data, ref):
             print("New Data: ")
             new_d = input().strip()
             new_d, next = verify_data(
-                daily_actions_data[ref][1]
-                if ref in daily_actions_data
-                else daily_data[ref][1],
+                st.daily_actions_data[ref][1]
+                if ref in st.daily_actions_data
+                else st.daily_data[ref][1],
                 new_d,
             )
 
@@ -282,52 +270,52 @@ def print_all_data(data):
 
 def read_weekly_data():
     result = {}
-    if week_day == weekly_asked_day:
-        print(title3)
-        for data in weekly_data:
+    if week_day == st.weekly_asked_day:
+        print(st.title3)
+        for data in st.weekly_data:
             next = True
             while next:
                 print(f"{data}: ")
                 readed_data = input().strip()
-                readed_data, next = verify_data(weekly_data[data][1], readed_data)
+                readed_data, next = verify_data(st.weekly_data[data][1], readed_data)
 
             result[data] = readed_data
 
-        print(margin)
+        print(st.margin)
 
     return result
 
 
 def read_daily_data():
-    print(title1)
+    print(st.title1)
     result = {}
-    for data in daily_data:
+    for data in st.daily_data:
         next = True
         while next:
             print(f"{data}: ")
             readed_data = input().strip()
-            readed_data, next = verify_data(daily_data[data][1], readed_data)
+            readed_data, next = verify_data(st.daily_data[data][1], readed_data)
 
         result[data] = readed_data
 
-    print(margin)
+    print(st.margin)
 
     return result
 
 
 def read_daily_actions():
-    print(title2)
+    print(st.title2)
     result = {}
-    for data in daily_actions_data:
+    for data in st.daily_actions_data:
         next = True
         while next:
             print(f"{data}: ")
             readed_data = input().strip()
-            readed_data, next = verify_data(daily_actions_data[data][1], readed_data)
+            readed_data, next = verify_data(st.daily_actions_data[data][1], readed_data)
 
         result[data] = readed_data
 
-        if len(daily_actions_data[data]) == 3 and (
+        if len(st.daily_actions_data[data]) == 3 and (
             readed_data.hour != 0 or readed_data.minute != 0
         ):
             readed_sub_data = read_sub_data(data, readed_data)
@@ -343,7 +331,7 @@ def read_sub_data(data, time):
         option = choose_option(data, result)
         print("Time: ")
         sub_data = input().strip()
-        sub_data, maybe_next = verify_data(daily_actions_data[data][1], sub_data)
+        sub_data, maybe_next = verify_data(st.daily_actions_data[data][1], sub_data)
         maybe_next = maybe_next or sub_data == "0"
         if not maybe_next:
             ver_sub_hours = verify_sub_hours(time, list(result.values()), sub_data)
@@ -360,11 +348,11 @@ def read_sub_data(data, time):
 
 
 def choose_option(data, choosen):
-    print(ask_sub_data)
+    print(st.ask_sub_data)
     tmp_sub = []
     ok = True
     while ok:
-        for n, option in enumerate(daily_actions_data[data][2]):
+        for n, option in enumerate(st.daily_actions_data[data][2]):
             print(f"- {option} ({n})")
             tmp_sub.append(option)
 
@@ -377,19 +365,13 @@ def choose_option(data, choosen):
 
 
 def verify_sub_hours(total, hours, new_hour):
-    tot_datetime = datetime.combine(
-        date(1, 1, 1), time(total.hour, total.minute)
-    )
+    tot_datetime = datetime.combine(date(1, 1, 1), time(total.hour, total.minute))
     tot_hours = datetime.combine(date(1, 1, 1), time(0, 0))
     for h in hours:
-        tot_hours += timedelta(hours=int(h.hour)) + timedelta(
-            minutes=int(h.minute)
-        )
+        tot_hours += timedelta(hours=int(h.hour)) + timedelta(minutes=int(h.minute))
 
     tot_hours = (
-        tot_hours
-        + timedelta(hours=int(new_hour.hour))
-        + timedelta(minutes=int(new_hour.minute))
+        tot_hours + timedelta(hours=int(new_hour.hour)) + timedelta(minutes=int(new_hour.minute))
     )
 
     if tot_datetime == tot_hours:
@@ -404,7 +386,7 @@ def verify_data(type, data):
     result = False
     data_new = data
     if type == "hour":
-        tmp = data.split(hour_format)
+        tmp = data.split(st.hour_format)
         if len(tmp) < 2:
             result = True
         if len(tmp) == 2:
@@ -415,7 +397,7 @@ def verify_data(type, data):
             data_new = datetime.strptime(data, "%H %M")
 
     if type == "time":
-        tmp = data.split(hour_format)
+        tmp = data.split(st.hour_format)
         if len(tmp) < 2:
             data = data + " 0"
         if len(tmp) == 2:
@@ -440,9 +422,9 @@ def verify_data(type, data):
             result = True
 
     elif type == "check":
-        if data.lower() not in check_type:
+        if data.lower() not in st.check_type:
             result = True
-        elif data.lower() in yes_check_type:
+        elif data.lower() in st.yes_check_type:
             data_new = "X"
         else:
             data_new = " "
@@ -450,7 +432,7 @@ def verify_data(type, data):
     elif type == "str":
         pass
 
-    if result == True:
+    if result:
         print("Data not correct, reinsert pls")
 
     return data_new, result

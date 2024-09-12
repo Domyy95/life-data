@@ -9,7 +9,7 @@ file_obsidian = [f for f in os.listdir(obsidian_book_directory) if f.endswith(".
 
 def select_random_row(da_file):
     result = ""
-    while result.strip() == "" or result == None or "![" in result:
+    while result.strip() == "" or result is None or "![" in result:
         with open(da_file, "r", encoding="utf-8") as file:
             rows = file.readlines()
             if rows is not None:
@@ -23,7 +23,7 @@ def select_random_quote(da_file):
     while (
         result.strip() == ""
         or result.strip() == ">"
-        or result == None
+        or result is None
         or "-" not in result
         or "[M" in result
         or "[[" in result
@@ -32,13 +32,7 @@ def select_random_quote(da_file):
             rows = file.readlines()
             result = random.choice(rows)
 
-    result = (
-        result.replace("“", "")
-        .replace("”", "")
-        .replace('"', "")
-        .replace("-", "")
-        .strip()
-    )
+    result = result.replace("“", "").replace("”", "").replace('"', "").replace("-", "").strip()
     return result
 
 
