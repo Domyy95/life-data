@@ -3,8 +3,8 @@ import pprint
 from oauth2client.service_account import ServiceAccountCredentials
 
 # To change every year
-data_file_name = "2024_action_activity"
-year_offset = 2
+data_file_name = "2025"
+year_offset = 4
 
 # Daily - Data sheet
 daily_data_sheet = "Daily - Data"
@@ -34,9 +34,8 @@ weekly_data_start_col = "Q"
 weekly_data_end_col = "T"
 weekly_data = {
     "Week Notes": ["Q", "str"],
-    "Week Retrospective": ["R", "str"],
-    "Week Vote": ["S", "int"],
-    "Weight": ["T", "float"],
+    "Week Vote": ["R", "int"],
+    "Weight": ["S", "float"],
 }
 
 # Daily - Actions sheet + Daily activities sheet
@@ -45,14 +44,12 @@ daily_sub_activities_sheet = "Daily - subActions"
 
 # name: coloumn on sheet, type of data, categories if presents
 daily_actions_data = {
-    "Sleep": ["L", "time"],
+    "Sleep": ["time"],
     "Personal act": [
-        "B",
         "time",
-        {"Planning": 59, "Writing": 60, "Meditation": 61, "Other": 64},
+        {"Planning": 59, "Meditation": 60, "Other": 64},
     ],
     "Work": [
-        "C",
         "time",
         {
             "JobToMe": 49,
@@ -61,59 +58,53 @@ daily_actions_data = {
         },
     ],
     "Learning": [
-        "E",
         "time",
         {
             "reading": 15,
-            "Webinar / Courses": 16,
+            "Coding": 16,
             "CTF": 17,
-            "Coding": 18,
-            "English": 19,
+            "Webinar / Courses": 18,
             "Other": 20,
         },
     ],
     "Sport": [
-        "F",
         "time",
         {
             "Run": 3,
-            "Hiking": 4,
-            "Yoga": 5,
+            "Workout": 4,
+            "Hiking": 5,
+            "Yoga": 6,
             "Bike": 7,
-            "Workout": 8,
             "Other": 9,
         },
     ],
     "Personal projects": [
-        "F",
         "time",
         {
-            "3d Printing": 25,
-            "Home projects": 26,
-            "Website - Blog": 27,
+            "Website - Blog": 25,
+            "House": 26,
+            "Home projects": 27,
             "GAE": 28,
-            "House": 29,
             "Other": 30,
         },
     ],
     "Fun": [
-        "H",
         "time",
         {
             "Martina": 35,
-            "YouTube": 36,
-            "Friends time": 37,
+            "Friends time": 36,
+            "YouTube": 37,
             "Board games": 38,
             "Movies": 39,
             "Trips": 40,
             "Other": 44,
         },
     ],
-    "Talking": ["I", "time"],
-    "Phone": ["L", "time"],
-    "Operations": ["D", "time"],
-    "My Tasks": ["J", "time"],
-    "Family Tasks": ["K", "time"],
+    "Talking": ["time"],
+    "Phone": ["time"],
+    "Operations": ["time"],
+    "My Tasks": ["time"],
+    "Family Tasks": ["time"],
 }
 
 daily_actions_start_end_sheet = ["B", "M"]

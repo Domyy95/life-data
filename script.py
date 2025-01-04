@@ -186,7 +186,7 @@ def upload_data(all_data):
 
                 worksheet_update(
                     data=to_upload,
-                    start=f"{base_10_to_alphabet(day_of_the_year - 1 + st.year_offset)}{st.daily_actions_data[d][2][to_upload_name]}",
+                    start=f"{base_10_to_alphabet(day_of_the_year - 1 + st.year_offset)}{st.daily_actions_data[d][1][to_upload_name]}",
                     worksheet_obj=worksheet,
                 )
 
@@ -229,7 +229,7 @@ def modify_data(data, ref):
             print("New Data: ")
             new_d = input().strip()
             new_d, next = verify_data(
-                st.daily_actions_data[ref][1]
+                st.daily_actions_data[ref][0]
                 if ref in st.daily_actions_data
                 else st.daily_data[ref][1],
                 new_d,
@@ -242,7 +242,7 @@ def modify_data(data, ref):
             print("New Data: ")
             new_d = input().strip()
             new_d, next = verify_data(
-                st.daily_actions_data[ref][1]
+                st.daily_actions_data[ref][0]
                 if ref in st.daily_actions_data
                 else st.daily_data[ref][1],
                 new_d,
@@ -311,11 +311,11 @@ def read_daily_actions():
         while next:
             print(f"{data}: ")
             readed_data = input().strip()
-            readed_data, next = verify_data(st.daily_actions_data[data][1], readed_data)
+            readed_data, next = verify_data(st.daily_actions_data[data][0], readed_data)
 
         result[data] = readed_data
 
-        if len(st.daily_actions_data[data]) == 3 and (
+        if len(st.daily_actions_data[data]) == 2 and (
             readed_data.hour != 0 or readed_data.minute != 0
         ):
             readed_sub_data = read_sub_data(data, readed_data)
@@ -331,7 +331,7 @@ def read_sub_data(data, time):
         option = choose_option(data, result)
         print("Time: ")
         sub_data = input().strip()
-        sub_data, maybe_next = verify_data(st.daily_actions_data[data][1], sub_data)
+        sub_data, maybe_next = verify_data(st.daily_actions_data[data][0], sub_data)
         maybe_next = maybe_next or sub_data == "0"
         if not maybe_next:
             ver_sub_hours = verify_sub_hours(time, list(result.values()), sub_data)
@@ -352,7 +352,7 @@ def choose_option(data, choosen):
     tmp_sub = []
     ok = True
     while ok:
-        for n, option in enumerate(st.daily_actions_data[data][2]):
+        for n, option in enumerate(st.daily_actions_data[data][1]):
             print(f"- {option} ({n})")
             tmp_sub.append(option)
 
