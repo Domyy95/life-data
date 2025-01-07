@@ -12,7 +12,15 @@ Gspread doc: [link](https://gspread.readthedocs.io/en/latest/)
 insert in a file:
 
     #!/bin/bash
-    cd Desktop/life-data
+    cd Personal/life-data/src
+    python3 script.py
+
+zsh with conda environment:
+
+    #!/bin/zsh
+    source ~/anaconda3/etc/profile.d/conda.sh
+    cd Personal/life-data/src
+    conda activate life-data
     python3 script.py
 
 Save it and digit
