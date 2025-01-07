@@ -1,5 +1,5 @@
 .idea/
-/client_key.json
 .DS_Store
 env/
 __pycache__/
+secret/client_key.json
