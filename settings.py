@@ -4,7 +4,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 # To change every year
 data_file_name = "2025"
-year_offset = 4
+year_offset = 6
 
 # Daily - Data sheet
 daily_data_sheet = "Daily - Data"
