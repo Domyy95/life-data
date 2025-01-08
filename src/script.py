@@ -97,18 +97,19 @@ def worksheet_update(data: list, start: str, worksheet: str, end=None):
     :param worksheet: The worksheet parameter is used to specify the name of the worksheet where the
     data will be updated.
     """
+    data = [data]
     try:
         worksheet = sheet.worksheet(worksheet)
         if end is None:
             worksheet.update(
-                values=data,
+                values=[data],
                 range_name=start,
                 value_input_option="USER_ENTERED",
             )
 
         else:
             worksheet.update(
-                values=[data],
+                values=data,
                 range_name=f"{start}:{end}",
                 value_input_option="USER_ENTERED",
             )
