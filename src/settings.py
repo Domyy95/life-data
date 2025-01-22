@@ -97,6 +97,7 @@ daily_actions_data = {
             "Board games": 38,
             "Movies": 39,
             "Trips": 40,
+            "Gaming": 41,
             "Other": 44,
         },
     ],
