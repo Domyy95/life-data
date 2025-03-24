@@ -85,6 +85,7 @@ daily_actions_data = {
             "House": 26,
             "Home projects": 27,
             "GAE": 28,
+            "RunUp": 29,
             "Other": 30,
         },
     ],
