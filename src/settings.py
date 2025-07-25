@@ -82,8 +82,8 @@ daily_actions_data = {
         "time",
         {
             "Website - Blog": 25,
-            "House": 26,
-            "Home projects": 27,
+            "Home": 26,
+            "Family": 27,
             "GAE": 28,
             "RunUp": 29,
             "Other": 30,
@@ -106,7 +106,7 @@ daily_actions_data = {
     "Phone": ["time"],
     "Operations": ["time"],
     "My Tasks": ["time"],
-    "Family Tasks": ["time"],
+    "Home Tasks": ["time"],
 }
 
 daily_actions_start_end_sheet = ["B", "M"]
@@ -120,7 +120,7 @@ day_actions_order = [
     "Fun",
     "Talking",
     "My Tasks",
-    "Family Tasks",
+    "Home Tasks",
     "Phone",
     "Sleep",
 ]
@@ -144,7 +144,7 @@ data_for_check = [
     "Phone",
     "Operations",
     "My Tasks",
-    "Family Tasks",
+    "Home Tasks",
     "Read before sleep",
 ]
 hour_format = " "
