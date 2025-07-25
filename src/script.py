@@ -1,7 +1,9 @@
+import os
+from datetime import date, datetime, time, timedelta
+
 import settings as st
-from datetime import datetime, timedelta, date, time
-from random_tag import random_tag_note
 from random_quotes import random_quote_and_book_notes
+from random_tag import random_tag_note
 
 yesterday = datetime.today() - timedelta(days=1)
 choosen_day = datetime.today()
@@ -36,26 +38,46 @@ def main():
 
 
 def choose_day():
-    global choosen_day
-    global week_day
-    global daily_data_y
-    global day_of_the_year
-    global weekly_activities_x
+    global choosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
+
+    file_path = ".last_entry.txt"
+    if os.path.exists(file_path):
+        with open(file_path, "r") as f:
+            last_date_str = f.read().strip()
+            try:
+                last_date = datetime.strptime(last_date_str, "%Y-%m-%d")
+                choosen_day = last_date + timedelta(days=1)
+                print(f"Auto-selected day: {choosen_day.date()}")
+            except ValueError:
+                print("Invalid date format in last_entry.txt, fallback to manual input")
+                manual_choose_day()
+                return
+    else:
+        manual_choose_day()
+        return
+
+
+def manual_choose_day():
+    global choosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
     choosen_day = datetime.today()
 
     while True:
         print("How many days ago do you want to go?")
-        answer = int(input())
+        answer = input()
         answer, wrong = verify_data("int", answer)
 
         if not wrong:
-            tmp_day = choosen_day - timedelta(days=answer)
+            tmp_day = choosen_day - timedelta(days=int(answer))
             print(f"Choosen day: {tmp_day.date()}. Ok? [y/n]")
             answer = input()
             if answer in st.yes_check_type:
+                choosen_day = tmp_day
+                update_day_metadata()
                 break
 
-    choosen_day = tmp_day
+
+def update_day_metadata():
+    global choosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
     day_of_the_year = choosen_day.timetuple().tm_yday
     daily_data_y = day_of_the_year + st.year_offset
     week_day = choosen_day.isoweekday()
