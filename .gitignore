@@ -3,3 +3,4 @@
 env/
 __pycache__/
 secret/client_key.json
+src/.last_entry.txt

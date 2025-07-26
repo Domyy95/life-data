@@ -2,6 +2,8 @@ import gspread
 import pprint
 from oauth2client.service_account import ServiceAccountCredentials
 
+last_entry_file_path = ".last_entry.txt"
+
 # To change every year
 data_file_name = "2025"
 year_offset = 4
@@ -47,7 +49,7 @@ daily_actions_data = {
     "Sleep": ["time"],
     "Personal act": [
         "time",
-        {"Planning": 59, "Meditation": 60, "Other": 64},
+        {"Planning": 59, "Meditation": 60, "Writing": 61, "Other": 64},
     ],
     "Work": [
         "time",
