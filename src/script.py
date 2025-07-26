@@ -50,7 +50,7 @@ def choose_day():
                 print(f"Auto-selected day: {chosen_day.date()}")
                 update_day_metadata()
             except ValueError:
-                print("Invalid date format in last_entry.txt, fallback to manual input")
+                print(f"Invalid date format in {st.last_entry_file_path}, fallback to manual input")
                 manual_choose_day()
                 return
     else:
