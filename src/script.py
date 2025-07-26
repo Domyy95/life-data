@@ -111,8 +111,12 @@ def update_last_day_entry_file():
     This function writes the last inserted date in 'YYYY-MM-DD' format to the specified
     last entry file path. It is called after each successful data upload.
     """
-    with open(st.last_entry_file_path, "w") as f:
-        f.write(chosen_day.strftime("%Y-%m-%d"))
+    try:
+        with open(st.last_entry_file_path, "w") as f:
+            f.write(chosen_day.strftime("%Y-%m-%d"))
+    except OSError as e:
+        print(f"Error: Unable to write to file {st.last_entry_file_path}. {e}")
+        # Optionally, you could log the error or take further action here.
 
 
 def compute_next_day():
