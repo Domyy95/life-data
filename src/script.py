@@ -48,6 +48,7 @@ def choose_day():
                 last_date = datetime.strptime(last_date_str, "%Y-%m-%d")
                 choosen_day = last_date + timedelta(days=1)
                 print(f"Auto-selected day: {choosen_day.date()}")
+                update_day_metadata()
             except ValueError:
                 print("Invalid date format in last_entry.txt, fallback to manual input")
                 manual_choose_day()
