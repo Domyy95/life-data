@@ -116,20 +116,13 @@ def update_last_day_entry_file():
 
 
 def compute_next_day():
-    global chosen_day
-    global week_day
-    global daily_data_y
-    global day_of_the_year
-    global weekly_activities_x
+    global chosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
 
     if chosen_day.date() == yesterday.date():
         return False
 
     chosen_day = chosen_day + timedelta(days=1)
-    day_of_the_year = chosen_day.timetuple().tm_yday
-    daily_data_y = day_of_the_year + st.year_offset
-    week_day = chosen_day.isoweekday()
-    weekly_activities_x = chosen_day.isocalendar()[1] + 1
+    update_day_metadata()
     return True
 
 
