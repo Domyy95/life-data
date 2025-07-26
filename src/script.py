@@ -85,6 +85,18 @@ def manual_choose_day():
 
 
 def update_day_metadata():
+    """
+    Updates global variables related to the currently chosen day.
+
+    This function recalculates and updates the following global variables:
+    - day_of_the_year: The day of the year for the chosen day.
+    - daily_data_y: Adjusted day of the year with an offset.
+    - week_day: The weekday number (1 for Monday, 7 for Sunday).
+    - weekly_activities_x: The ISO calendar week number, incremented by 1.
+
+    Call this function whenever the `choosen_day` variable is modified
+    to ensure all related metadata is consistent.
+    """
     global choosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
     day_of_the_year = choosen_day.timetuple().tm_yday
     daily_data_y = day_of_the_year + st.year_offset
