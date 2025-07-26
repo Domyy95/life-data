@@ -47,7 +47,7 @@ daily_actions_data = {
     "Sleep": ["time"],
     "Personal act": [
         "time",
-        {"Planning": 59, "Meditation": 60, "Other": 64},
+        {"Planning": 59, "Meditation": 60, "Writing": 61, "Other": 64},
     ],
     "Work": [
         "time",
