@@ -6,11 +6,11 @@ from random_quotes import random_quote_and_book_notes
 from random_tag import random_tag_note
 
 yesterday = datetime.today() - timedelta(days=1)
-choosen_day = datetime.today()
-day_of_the_year = choosen_day.timetuple().tm_yday
+chosen_day = datetime.today()
+day_of_the_year = chosen_day.timetuple().tm_yday
 daily_data_y = day_of_the_year
-week_day = choosen_day.isoweekday()
-weekly_activities_x = choosen_day.isocalendar()[1]
+week_day = chosen_day.isoweekday()
+weekly_activities_x = chosen_day.isocalendar()[1]
 
 sheet = st.google_api_auth()
 
@@ -20,7 +20,7 @@ def main():
     print(st.margin)
     choose_day()
     while True:
-        print(st.margin2 + f" {choosen_day.date()} " + st.margin2)
+        print(st.margin2 + f" {chosen_day.date()} " + st.margin2)
         daily_data_r = read_daily_data()
         daily_action_r = read_daily_actions()
         weekly_data = read_weekly_data()
@@ -39,15 +39,15 @@ def main():
 
 
 def choose_day():
-    global choosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
+    global chosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
 
     if os.path.exists(st.last_entry_file_path):
         with open(st.last_entry_file_path, "r") as f:
             last_date_str = f.read().strip()
             try:
                 last_date = datetime.strptime(last_date_str, "%Y-%m-%d")
-                choosen_day = last_date + timedelta(days=1)
-                print(f"Auto-selected day: {choosen_day.date()}")
+                chosen_day = last_date + timedelta(days=1)
+                print(f"Auto-selected day: {chosen_day.date()}")
                 update_day_metadata()
             except ValueError:
                 print("Invalid date format in last_entry.txt, fallback to manual input")
@@ -66,8 +66,8 @@ def manual_choose_day():
     the user to specify how many days ago they want to go, validates the input,
     and updates the global variables related to the chosen day.
     """
-    global choosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
-    choosen_day = datetime.today()
+    global chosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
+    chosen_day = datetime.today()
 
     while True:
         print("How many days ago do you want to go?")
@@ -75,11 +75,11 @@ def manual_choose_day():
         answer, wrong = verify_data("int", answer)
 
         if not wrong:
-            tmp_day = choosen_day - timedelta(days=answer)
-            print(f"Choosen day: {tmp_day.date()}. Ok? [y/n]")
+            tmp_day = chosen_day - timedelta(days=answer)
+            print(f"Chosen day: {tmp_day.date()}. Ok? [y/n]")
             answer = input()
             if answer in st.yes_check_type:
-                choosen_day = tmp_day
+                chosen_day = tmp_day
                 update_day_metadata()
                 break
 
@@ -94,14 +94,14 @@ def update_day_metadata():
     - week_day: The weekday number (1 for Monday, 7 for Sunday).
     - weekly_activities_x: The ISO calendar week number, incremented by 1.
 
-    Call this function whenever the `choosen_day` variable is modified
+    Call this function whenever the `chosen_day` variable is modified
     to ensure all related metadata is consistent.
     """
-    global choosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
-    day_of_the_year = choosen_day.timetuple().tm_yday
+    global chosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
+    day_of_the_year = chosen_day.timetuple().tm_yday
     daily_data_y = day_of_the_year + st.year_offset
-    week_day = choosen_day.isoweekday()
-    weekly_activities_x = choosen_day.isocalendar()[1] + 1
+    week_day = chosen_day.isoweekday()
+    weekly_activities_x = chosen_day.isocalendar()[1] + 1
 
 
 def update_last_day_entry_file():
@@ -112,24 +112,24 @@ def update_last_day_entry_file():
     last entry file path. It is called after each successful data upload.
     """
     with open(st.last_entry_file_path, "w") as f:
-        f.write(choosen_day.strftime("%Y-%m-%d"))
+        f.write(chosen_day.strftime("%Y-%m-%d"))
 
 
 def compute_next_day():
-    global choosen_day
+    global chosen_day
     global week_day
     global daily_data_y
     global day_of_the_year
     global weekly_activities_x
 
-    if choosen_day.date() == yesterday.date():
+    if chosen_day.date() == yesterday.date():
         return False
 
-    choosen_day = choosen_day + timedelta(days=1)
-    day_of_the_year = choosen_day.timetuple().tm_yday
+    chosen_day = chosen_day + timedelta(days=1)
+    day_of_the_year = chosen_day.timetuple().tm_yday
     daily_data_y = day_of_the_year + st.year_offset
-    week_day = choosen_day.isoweekday()
-    weekly_activities_x = choosen_day.isocalendar()[1] + 1
+    week_day = chosen_day.isoweekday()
+    weekly_activities_x = chosen_day.isocalendar()[1] + 1
     return True
 
 
@@ -303,7 +303,7 @@ def modify_data(data, ref):
 
 def print_all_data(data):
     print("These are the data inserted:")
-    print(f"Day: {choosen_day.date()}")
+    print(f"Day: {chosen_day.date()}")
     for n, d in enumerate(data):
         if isinstance(data[d], datetime):
             print(f"({n}) {d} - {data[d].hour}:{data[d].minute}")
@@ -396,7 +396,7 @@ def read_sub_data(data, time):
     return result
 
 
-def choose_option(data, choosen):
+def choose_option(data, chosen):
     print(st.ask_sub_data)
     tmp_sub = []
     ok = True
@@ -407,7 +407,7 @@ def choose_option(data, choosen):
 
         sub_cat = int(input())
         if sub_cat <= n:
-            if tmp_sub[sub_cat] not in choosen:
+            if tmp_sub[sub_cat] not in chosen:
                 ok = False
 
     return tmp_sub[sub_cat]
