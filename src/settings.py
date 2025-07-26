@@ -2,6 +2,8 @@ import gspread
 import pprint
 from oauth2client.service_account import ServiceAccountCredentials
 
+last_entry_file_path = ".last_entry.txt"
+
 # To change every year
 data_file_name = "2025"
 year_offset = 4

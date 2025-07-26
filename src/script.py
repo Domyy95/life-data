@@ -27,6 +27,7 @@ def main():
         all_data = {**daily_data_r, **daily_action_r, **weekly_data}
         data_review(all_data)
         upload_data(all_data)
+        update_last_day_entry_file()
         print(st.margin)
 
         next_day = compute_next_day()
@@ -40,9 +41,8 @@ def main():
 def choose_day():
     global choosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
 
-    file_path = ".last_entry.txt"
-    if os.path.exists(file_path):
-        with open(file_path, "r") as f:
+    if os.path.exists(st.last_entry_file_path):
+        with open(st.last_entry_file_path, "r") as f:
             last_date_str = f.read().strip()
             try:
                 last_date = datetime.strptime(last_date_str, "%Y-%m-%d")
@@ -90,6 +90,17 @@ def update_day_metadata():
     daily_data_y = day_of_the_year + st.year_offset
     week_day = choosen_day.isoweekday()
     weekly_activities_x = choosen_day.isocalendar()[1] + 1
+
+
+def update_last_day_entry_file():
+    """
+    Updates the last entry file with the last inserted date.
+
+    This function writes the last inserted date in 'YYYY-MM-DD' format to the specified
+    last entry file path. It is called after each successful data upload.
+    """
+    with open(st.last_entry_file_path, "w") as f:
+        f.write(choosen_day.strftime("%Y-%m-%d"))
 
 
 def compute_next_day():
