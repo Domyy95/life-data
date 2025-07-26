@@ -75,7 +75,7 @@ def manual_choose_day():
         answer, wrong = verify_data("int", answer)
 
         if not wrong:
-            tmp_day = choosen_day - timedelta(days=int(answer))
+            tmp_day = choosen_day - timedelta(days=answer)
             print(f"Choosen day: {tmp_day.date()}. Ok? [y/n]")
             answer = input()
             if answer in st.yes_check_type:
