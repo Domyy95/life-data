@@ -58,6 +58,13 @@ def choose_day():
 
 
 def manual_choose_day():
+    """
+    Allows the user to manually select a day when automatic selection fails.
+
+    This function is called by `choose_day()` as a fallback mechanism. It prompts
+    the user to specify how many days ago they want to go, validates the input,
+    and updates the global variables related to the chosen day.
+    """
     global choosen_day, week_day, daily_data_y, day_of_the_year, weekly_activities_x
     choosen_day = datetime.today()
 
