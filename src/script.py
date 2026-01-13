@@ -10,7 +10,7 @@ chosen_day = datetime.today()
 day_of_the_year = chosen_day.timetuple().tm_yday
 daily_data_y = day_of_the_year
 week_day = chosen_day.isoweekday()
-weekly_activities_x = chosen_day.isocalendar()[1]
+weekly_activities_x = chosen_day.isocalendar()[1] - 1
 
 sheet = st.google_api_auth()
 
