@@ -5,8 +5,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 last_entry_file_path = ".last_entry.txt"
 
 # To change every year
-data_file_name = "2025"
-year_offset = 4
+data_file_name = "2026"
+year_offset = -2
 
 # Daily - Data sheet
 daily_data_sheet = "Daily - Data"
@@ -17,11 +17,11 @@ daily_data = {
     "Sleep start": ["B", "hour"],
     "Awake": ["C", "hour"],
     "Read before sleep": ["D", "time"],
-    "Brush teeth": ["E", "int"],
-    "Out Home": ["F", "check"],
-    "Eat meet": ["G", "check"],
-    "Mood": ["H", "float"],
-    "Vote": ["I", "float"],
+    "Out Home": ["E", "check"],
+    "Energy": ["F", "float"],
+    "Stress": ["G", "float"],
+    "Happiness": ["H", "float"],
+    "Achievement": ["I", "float"],
     "Notes": ["J", "str"],
     "Something new?": ["K", "str"],
     "First food": ["L", "time"],
@@ -32,12 +32,12 @@ daily_data = {
 # Asked only once a week
 weekly_actions_sheet = "Weekly - Actions"
 weekly_asked_day = 7  # Sunday
-weekly_data_start_col = "Q"
-weekly_data_end_col = "T"
+weekly_data_start_col = "N"
+weekly_data_end_col = "P"
 weekly_data = {
-    "Week Notes": ["Q", "str"],
-    "Week Vote": ["R", "int"],
-    "Weight": ["S", "float"],
+    "Week Notes": ["N", "str"],
+    "Week Vote": ["O", "int"],
+    "Weight": ["P", "float"],
 }
 
 # Daily - Actions sheet + Daily activities sheet
@@ -46,29 +46,32 @@ daily_sub_activities_sheet = "Daily - subActions"
 
 # name: coloumn on sheet, type of data, categories if presents
 daily_actions_data = {
+    # Recupero
     "Sleep": ["time"],
-    "Personal act": [
+    # Baseline della vita (mangiare, lavarsi, spostamenti, ecc.)
+    "Operations": ["time"],
+    # Crescita personale
+    "Personal Growth": [
         "time",
-        {"Planning": 59, "Meditation": 60, "Writing": 61, "Other": 64},
+        {
+            "Reading": 15,
+            "Planning": 16,
+            "Writing": 17,
+            "Meditation": 18,
+            "Courses / Webinar": 19,
+            "Other": 21,
+        },
     ],
+    # Lavoro retribuito
     "Work": [
         "time",
         {
-            "JobToMe": 49,
-            "Freelance": 50,
-            "Other": 54,
+            "JobToMe": 48,
+            "Freelance": 49,
+            "Other": 53,
         },
     ],
-    "Learning": [
-        "time",
-        {
-            "reading": 15,
-            "Coding": 16,
-            "CTF": 17,
-            "Webinar / Courses": 18,
-            "Other": 20,
-        },
-    ],
+    # Corpo e movimento
     "Sport": [
         "time",
         {
@@ -80,73 +83,66 @@ daily_actions_data = {
             "Other": 9,
         },
     ],
-    "Personal projects": [
+    # Costruzione e responsabilità personali
+    "Side Projects": [
         "time",
         {
-            "Website - Blog": 25,
-            "Home": 26,
-            "Family": 27,
-            "GAE": 28,
-            "RunUp": 29,
-            "Other": 30,
+            "Blog": 26,
+            "Home": 27,
+            "Family Support": 28,
+            "GAE": 29,
+            "Coding / CTF": 30,
+            "Other": 32,
         },
     ],
+    # Relazioni (intenzionali e casual)
+    "Relationships": [
+        "time",
+        {
+            "Martina": 58,
+            "Friends": 59,
+            "Family": 60,
+            "Other": 63,
+        },
+    ],
+    # Svago / consumo
     "Fun": [
         "time",
         {
-            "Martina": 35,
-            "Friends time": 36,
             "YouTube": 37,
-            "Board games": 38,
+            "Board Games": 38,
             "Movies": 39,
-            "Trips": 40,
-            "Gaming": 41,
-            "Other": 44,
+            "Gaming": 40,
+            "Trips": 41,
+            "Other": 43,
         },
     ],
-    "Talking": ["time"],
     "Phone": ["time"],
-    "Operations": ["time"],
-    "My Tasks": ["time"],
-    "Home Tasks": ["time"],
 }
 
-daily_actions_start_end_sheet = ["B", "M"]
+daily_actions_start_end_sheet = ["B", "J"]
 day_actions_order = [
-    "Personal act",
+    "Personal Growth",
     "Work",
-    "Operations",
-    "Learning",
-    "Personal projects",
+    "Side Projects",
     "Sport",
     "Fun",
-    "Talking",
-    "My Tasks",
-    "Home Tasks",
+    "Relationships",
+    "Operations",
     "Phone",
     "Sleep",
 ]
-activities_with_sub = [
-    "Personal act",
-    "Work",
-    "Learning",
-    "Personal projects",
-    "Fun",
-    "Sport",
-]
+activities_with_sub = ["Personal Growth", "Work", "Side Projects", "Fun", "Sport", "Relationships"]
 
 data_for_check = [
-    "Personal act",
+    "Personal Growth",
     "Work",
-    "Learning",
+    "Relationships",
     "Sport",
-    "Personal projects",
+    "Side Projects",
     "Fun",
-    "Talking",
     "Phone",
     "Operations",
-    "My Tasks",
-    "Home Tasks",
     "Read before sleep",
 ]
 hour_format = " "
