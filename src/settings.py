@@ -92,6 +92,7 @@ daily_actions_data = {
             "Family Support": 28,
             "GAE": 29,
             "Coding / CTF": 30,
+            "3D printing": 31,
             "Other": 32,
         },
     ],
